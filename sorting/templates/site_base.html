@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{# Page Title, Meta Description & Meta Keywords #}
+{% block title %}
+sorting
+{% endblock %}
+
+{% block meta-description %}
+{% endblock %}
+
+{% block meta-keywords %}
+{% endblock %}
+
+{# Additional Meta Tags #}
+{% block meta %}
+{#    <meta property="og:title" content="sorting {% trans "Title" %}" />#}
+{#    <meta property="og:type" content="article" />#}
+{#    <meta property="og:url" content="" />#}
+{#    <meta property="og:site_name" content="sorting {% trans "Content" %}" />#}
+{#    <meta property="og:description" content="sorting {% trans "Description" %}" />#}
+{% endblock %}
+
+{# CSS styles #}
+{% block css %}
+
+    <link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}bootstrap/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}bootstrap/css/bootstrap-responsive.min.css">
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ STATIC_URL }}ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{ STATIC_URL }}ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{ STATIC_URL }}ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="{{ STATIC_URL }}ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="{{ STATIC_URL }}ico/favicon.png">
+{% endblock %}
+
+{# Javascript blocks that get rendered in the head section of the document #}
+{% block js_head %}
+{% endblock %}
+
+{# Javascript blocks that get rendered at the end of the document #}
+{% block js %}
+
+    <script type="text/javascript" src="{{ STATIC_URL }}scripts/libs/jquery/jquery.min.js"></script>
+
+    <script type="text/javascript" src="{{ STATIC_URL }}bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}bootstrap/js/bootstrap-responsive.min.js"></script>
+{% endblock %}
+
+{# Markup #}
+{% block markup %}
+ {% endblock %}
