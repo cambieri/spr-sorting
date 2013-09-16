@@ -16,10 +16,23 @@
 						<div class="span4">riga 1, colonna3</div>
 					</div>
 					<div class="row">
-						<div class="span12">riga 2</div>
+						<div class="span12">riga 2
+							<div id="placeholder" style="width:600px;height:300px"></div>
+						</div>
 					</div>
 					<div class="row">
 						<div class="span12">riga 3</div>
 					</div>
 {% endblock %}
 {# end of content #}
+
+{% block js %}
+{{ block.super }}
+		<script type="text/javascript">
+			function readyFn( jQuery ) {
+				$('body').css('background-color', 'yellow');
+				$.plot($("#placeholder"), [ [[0, 0], [1, 1]] ], { yaxis: { max: 1 } });
+			}
+			$(document).ready(readyFn);
+		</script>
+{% endblock %}

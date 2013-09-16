@@ -25,3 +25,8 @@
 			</footer>
 		</div> <!-- /container -->
 {% endblock %}
+
+{% block js %}
+{{ block.super }}
+    <script type="text/javascript" src="{{ STATIC_URL }}scripts/libs/flot/jquery.flot.js"></script>
+{% endblock %}
