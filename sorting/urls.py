@@ -1,14 +1,15 @@
 from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from django.views.generic.base import TemplateView
+# from django.views.generic.base import TemplateView
 
 admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', TemplateView.as_view(template_name="index.html")),
-    #url(r'^pagina1$', TemplateView.as_view(template_name="pagina1.html", get_context_data=lambda: {'pagina': 'pagina1'})),
+    url(r'^$', 'main.views.index'),
+#     url(r'^$', TemplateView.as_view(template_name="index.html")),
+#     url(r'^pagina1$', TemplateView.as_view(template_name="pagina1.html", get_context_data=lambda: {'pagina': 'pagina1'})),
 )
 
 # static media
