@@ -33,6 +33,18 @@
 								<span class="glyphicon glyphicon-chevron-down"></span>
 							</button>
 						</div>
+						<div class="col-xs-2">
+							<label class="checkbox">  
+                			<input type="checkbox" onclick="if (this.checked) leftWing=-30; else leftWing=0; refresh();">  
+                			Appendice SX
+                			</label>
+                		</div>
+						<div class="col-xs-2">
+							<label class="checkbox">  
+                			<input type="checkbox" onclick="if (this.checked) rightWing=30; else rightWing=0; refresh();">  
+                			Appendice DX
+                			</label>
+                		</div>
 					</div>
 					<div class="row top-buffer">
 						<div class="col-xs-12">
@@ -52,11 +64,14 @@
 {{ block.super }}
 		<script type="text/javascript">
 			var paper = Raphael("placeholder", "100%", "100%");
+			var scale = 2;
 			var minOffsetX = 0; var minOffsetY = 0;
 			var maxOffsetX = 40; var maxOffsetY = 30
 			var offsetX = 20; var offsetY = 15;
 			var icons = {{ icons|safe }};
 			var circles = new Array();
+			var circleRadius = 2.5;
+			var leftWing = 0; var rightWing = 0;
 			function decOffsetX(valore) {
 				offsetX = offsetX>minOffsetX ? offsetX-1 : minOffsetX;
 				$('#btnDecOffsetX').prop('disabled', offsetX==minOffsetX);
@@ -81,10 +96,10 @@
 				$('#btnDecOffsetY').prop('disabled', false);
 				refresh();
 			}
-			function drawCircle(posX, posY, offsetX, offsetY) {
-				var x = posX+offsetX;
-				var y = posY+offsetY;
-				var r = 6;
+			function drawCircle(posX, posY) {
+				var x = posX*scale + offsetX*scale;
+				var y = posY*scale + offsetY*scale;
+				var r = circleRadius*scale;
 				var circle = paper.circle(x, y, r);
 				circle.attr("fill", "#f00");
 				circle.attr("stroke", "#fff");
@@ -97,6 +112,73 @@
 				var path = "M"+(x)+","+(y-r)+"A"+r+","+r+",0,1,1,"+(x-0.1)+","+(y-r)+"z";
 				paper.path(path).attr(attr); */
 				circles.push(circle);
+			}
+			function drawCircles() {
+				/* for (var i=0; i<10; i++) {
+					for (var j=0; j<8; j++) {
+						drawCircle(i*30, j*30);
+					}
+				} */
+				// linea 1
+				drawCircle(60+leftWing, 0);
+				drawCircle(83+leftWing, 0);
+				drawCircle(105+leftWing, 0);
+				drawCircle(127+leftWing, 0);
+				drawCircle(167+rightWing, 0);
+				drawCircle(189+rightWing, 0);
+				drawCircle(211+rightWing, 0);
+				drawCircle(234+rightWing, 0);
+				// linea 2
+				drawCircle(60+leftWing, 13);
+				drawCircle(83+leftWing, 13);
+				drawCircle(105+leftWing, 13);
+				drawCircle(127+leftWing, 13);
+				drawCircle(167+rightWing, 13);
+				drawCircle(189+rightWing, 13);
+				drawCircle(211+rightWing, 13);
+				drawCircle(234+rightWing, 13);
+				// linea 3
+				drawCircle(74+leftWing, 27);
+				drawCircle(220+rightWing, 27);
+				// linea 4
+				drawCircle(60+leftWing, 39);
+				drawCircle(83+leftWing, 39);
+				drawCircle(105+leftWing, 39);
+				drawCircle(127+leftWing, 39);
+				drawCircle(167+rightWing, 39);
+				drawCircle(189+rightWing, 39);
+				drawCircle(211+rightWing, 39);
+				drawCircle(234+rightWing, 39);
+				// linea 5
+				drawCircle(60+leftWing, 59);
+				drawCircle(83+leftWing, 59);
+				drawCircle(105+leftWing, 59);
+				drawCircle(127+leftWing, 59);
+				drawCircle(167+rightWing, 59);
+				drawCircle(189+rightWing, 59);
+				drawCircle(211+rightWing, 59);
+				drawCircle(234+rightWing, 59);
+				// linea 6
+				drawCircle(74+leftWing, 71);
+				drawCircle(220+rightWing, 71);
+				// linea 7
+				drawCircle(60+leftWing, 85);
+				drawCircle(83+leftWing, 85);
+				drawCircle(105+leftWing, 85);
+				drawCircle(127+leftWing, 85);
+				drawCircle(167+rightWing, 85);
+				drawCircle(189+rightWing, 85);
+				drawCircle(211+rightWing, 85);
+				drawCircle(234+rightWing, 85);
+				// linea 8
+				drawCircle(60+leftWing, 98);
+				drawCircle(83+leftWing, 98);
+				drawCircle(105+leftWing, 98);
+				drawCircle(127+leftWing, 98);
+				drawCircle(167+rightWing, 98);
+				drawCircle(189+rightWing, 98);
+				drawCircle(211+rightWing, 98);
+				drawCircle(234+rightWing, 98);
 			}
 			function drawIcons() {
 				var attr = {
@@ -116,8 +198,19 @@
 						if (dotsOfIntersection.length > 0) {
 							paper.path(circles[j]).attr("fill", "#00F");
 						} */
-						if (Raphael.isPointInsidePath(icons[i], circles[j].attr('cx'), circles[j].attr('cy'))) {
-							circles[j].animate({fill:'blue'},200);
+						var x = circles[j].attr('cx');
+						var y = circles[j].attr('cy');
+						if (Raphael.isPointInsidePath(icons[i], x, y)) {
+							var radius = circles[j].attr('r');
+							if (Raphael.isPointInsidePath(icons[i], x + radius, y)) {
+								if (Raphael.isPointInsidePath(icons[i], x - radius, y)) {
+									if (Raphael.isPointInsidePath(icons[i], x, y + radius)) {
+										if (Raphael.isPointInsidePath(icons[i], x, y - radius)) {
+											circles[j].animate({fill:'blue'},200);
+										}
+									}
+								}
+							}
 						}
 					}
 				}
@@ -125,11 +218,7 @@
 			function refresh() {
 				paper.clear();
 				drawIcons();
-				for (var i=0; i<10; i++) {
-					for (var j=0; j<8; j++) {
-						drawCircle(i*30, j*30, offsetX, offsetY);
-					}
-				}
+				drawCircles();
 				checkIntersection();
 			}
 			function readyFn( jQuery ) {
