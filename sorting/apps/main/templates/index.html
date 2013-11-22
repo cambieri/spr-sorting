@@ -35,13 +35,13 @@
 						</div>
 						<div class="col-xs-2">
 							<label class="checkbox">  
-                			<input type="checkbox" onclick="if (this.checked) leftWing=-30; else leftWing=0; refresh();">  
+                			<input type="checkbox" onclick="if (this.checked) leftWing=-300; else leftWing=0; refresh();">  
                 			Appendice SX
                 			</label>
                 		</div>
 						<div class="col-xs-2">
 							<label class="checkbox">  
-                			<input type="checkbox" onclick="if (this.checked) rightWing=30; else rightWing=0; refresh();">  
+                			<input type="checkbox" onclick="if (this.checked) rightWing=300; else rightWing=0; refresh();">  
                 			Appendice DX
                 			</label>
                 		</div>
@@ -49,7 +49,7 @@
 					<div class="row top-buffer">
 						<div class="col-xs-12">
 							<p>PRIMA MISSIONE</p>
-							<div id="placeholder" style="width:100%;height:300px"></div>
+							<div id="cmbR" style="width:100%;height:300px"></div>
 						</div>
 					</div>
 					<div class="row">
@@ -62,44 +62,47 @@
 
 {% block js %}
 {{ block.super }}
+		<script type="text/javascript" src="{{ STATIC_URL }}js/cmbRaphael.js"></script>
+		<script type="text/javascript" src="{{ MEDIA_URL }}{{ drawSheet }}"></script>
 		<script type="text/javascript">
-			var paper = Raphael("placeholder", "100%", "100%");
-			var scale = 2;
+			// var paper = Raphael("placeholder", "100%", "100%");
+			var paper = cmbR;
 			var minOffsetX = 0; var minOffsetY = 0;
-			var maxOffsetX = 40; var maxOffsetY = 30
+			var maxOffsetX = 400; var maxOffsetY = 300;
 			var offsetX = 20; var offsetY = 15;
-			var icons = {{ icons|safe }};
+			// var icons = {{ icons|safe }};
+			var icons = [];
 			var circles = new Array();
-			var circleRadius = 2.5;
+			var circleRadius = 30;
 			var leftWing = 0; var rightWing = 0;
 			function decOffsetX(valore) {
-				offsetX = offsetX>minOffsetX ? offsetX-1 : minOffsetX;
+				offsetX = offsetX>minOffsetX ? offsetX-10 : minOffsetX;
 				$('#btnDecOffsetX').prop('disabled', offsetX==minOffsetX);
 				$('#btnIncOffsetX').prop('disabled', false);
 				refresh();
 			}
 			function incOffsetX(valore) {
-				offsetX = offsetX<maxOffsetX ? offsetX+1 : maxOffsetX;
+				offsetX = offsetX<maxOffsetX ? offsetX+10 : maxOffsetX;
 				$('#btnIncOffsetX').prop('disabled', offsetX==maxOffsetX);
 				$('#btnDecOffsetX').prop('disabled', false);
 				refresh();
 			}
 			function decOffsetY(valore) {
-				offsetY = offsetY>minOffsetY ? offsetY-1 : minOffsetY;
+				offsetY = offsetY>minOffsetY ? offsetY-10 : minOffsetY;
 				$('#btnDecOffsetY').prop('disabled', offsetY==minOffsetY);
 				$('#btnIncOffsetY').prop('disabled', false);
 				refresh();
 			}
 			function incOffsetY(valore) {
-				offsetY = offsetY<maxOffsetY ? offsetY+1 : maxOffsetY;
+				offsetY = offsetY<maxOffsetY ? offsetY+10 : maxOffsetY;
 				$('#btnIncOffsetY').prop('disabled', offsetY==maxOffsetY);
 				$('#btnDecOffsetY').prop('disabled', false);
 				refresh();
 			}
 			function drawCircle(posX, posY) {
-				var x = posX*scale + offsetX*scale;
-				var y = posY*scale + offsetY*scale;
-				var r = circleRadius*scale;
+				var x = posX + offsetX;
+				var y = posY + offsetY;
+				var r = circleRadius;
 				var circle = paper.circle(x, y, r);
 				circle.attr("fill", "#f00");
 				circle.attr("stroke", "#fff");
@@ -120,65 +123,65 @@
 					}
 				} */
 				// linea 1
-				drawCircle(60+leftWing, 0);
-				drawCircle(83+leftWing, 0);
-				drawCircle(105+leftWing, 0);
-				drawCircle(127+leftWing, 0);
-				drawCircle(167+rightWing, 0);
-				drawCircle(189+rightWing, 0);
-				drawCircle(211+rightWing, 0);
-				drawCircle(234+rightWing, 0);
+				drawCircle(600+leftWing, 0);
+				drawCircle(830+leftWing, 0);
+				drawCircle(1050+leftWing, 0);
+				drawCircle(1270+leftWing, 0);
+				drawCircle(1670+rightWing, 0);
+				drawCircle(1890+rightWing, 0);
+				drawCircle(2110+rightWing, 0);
+				drawCircle(2340+rightWing, 0);
 				// linea 2
-				drawCircle(60+leftWing, 13);
-				drawCircle(83+leftWing, 13);
-				drawCircle(105+leftWing, 13);
-				drawCircle(127+leftWing, 13);
-				drawCircle(167+rightWing, 13);
-				drawCircle(189+rightWing, 13);
-				drawCircle(211+rightWing, 13);
-				drawCircle(234+rightWing, 13);
+				drawCircle(600+leftWing, 130);
+				drawCircle(830+leftWing, 130);
+				drawCircle(1050+leftWing, 130);
+				drawCircle(1270+leftWing, 130);
+				drawCircle(1670+rightWing, 130);
+				drawCircle(1890+rightWing, 130);
+				drawCircle(2110+rightWing, 130);
+				drawCircle(2340+rightWing, 130);
 				// linea 3
-				drawCircle(74+leftWing, 27);
-				drawCircle(220+rightWing, 27);
+				drawCircle(740+leftWing, 270);
+				drawCircle(2200+rightWing, 270);
 				// linea 4
-				drawCircle(60+leftWing, 39);
-				drawCircle(83+leftWing, 39);
-				drawCircle(105+leftWing, 39);
-				drawCircle(127+leftWing, 39);
-				drawCircle(167+rightWing, 39);
-				drawCircle(189+rightWing, 39);
-				drawCircle(211+rightWing, 39);
-				drawCircle(234+rightWing, 39);
+				drawCircle(600+leftWing, 390);
+				drawCircle(830+leftWing, 390);
+				drawCircle(1050+leftWing, 390);
+				drawCircle(1270+leftWing, 390);
+				drawCircle(1670+rightWing, 390);
+				drawCircle(1890+rightWing, 390);
+				drawCircle(2110+rightWing, 390);
+				drawCircle(2340+rightWing, 390);
 				// linea 5
-				drawCircle(60+leftWing, 59);
-				drawCircle(83+leftWing, 59);
-				drawCircle(105+leftWing, 59);
-				drawCircle(127+leftWing, 59);
-				drawCircle(167+rightWing, 59);
-				drawCircle(189+rightWing, 59);
-				drawCircle(211+rightWing, 59);
-				drawCircle(234+rightWing, 59);
+				drawCircle(600+leftWing, 590);
+				drawCircle(830+leftWing, 590);
+				drawCircle(1050+leftWing, 590);
+				drawCircle(1270+leftWing, 590);
+				drawCircle(1670+rightWing, 590);
+				drawCircle(1890+rightWing, 590);
+				drawCircle(2110+rightWing, 590);
+				drawCircle(2340+rightWing, 590);
 				// linea 6
-				drawCircle(74+leftWing, 71);
-				drawCircle(220+rightWing, 71);
+				drawCircle(740+leftWing, 710);
+				drawCircle(2200+rightWing, 710);
 				// linea 7
-				drawCircle(60+leftWing, 85);
-				drawCircle(83+leftWing, 85);
-				drawCircle(105+leftWing, 85);
-				drawCircle(127+leftWing, 85);
-				drawCircle(167+rightWing, 85);
-				drawCircle(189+rightWing, 85);
-				drawCircle(211+rightWing, 85);
-				drawCircle(234+rightWing, 85);
+				drawCircle(600+leftWing, 850);
+				drawCircle(830+leftWing, 850);
+				drawCircle(1050+leftWing, 850);
+				drawCircle(1270+leftWing, 850);
+				drawCircle(1670+rightWing, 850);
+				drawCircle(1890+rightWing, 850);
+				drawCircle(2110+rightWing, 850);
+				drawCircle(2340+rightWing, 850);
 				// linea 8
-				drawCircle(60+leftWing, 98);
-				drawCircle(83+leftWing, 98);
-				drawCircle(105+leftWing, 98);
-				drawCircle(127+leftWing, 98);
-				drawCircle(167+rightWing, 98);
-				drawCircle(189+rightWing, 98);
-				drawCircle(211+rightWing, 98);
-				drawCircle(234+rightWing, 98);
+				drawCircle(600+leftWing, 980);
+				drawCircle(830+leftWing, 980);
+				drawCircle(1050+leftWing, 980);
+				drawCircle(1270+leftWing, 980);
+				drawCircle(1670+rightWing, 980);
+				drawCircle(1890+rightWing, 980);
+				drawCircle(2110+rightWing, 980);
+				drawCircle(2340+rightWing, 980);
 			}
 			function drawIcons() {
 				var attr = {
@@ -217,7 +220,8 @@
 			}
 			function refresh() {
 				paper.clear();
-				drawIcons();
+				// drawIcons();
+				drawSheet();
 				drawCircles();
 				checkIntersection();
 			}

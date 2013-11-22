@@ -103,7 +103,7 @@ def prepare_server():
 
 def prepare_deploy():
     with lcd('/home/workspace-django/projects/spr-sorting/sorting'):
-        local("python2 ./manage.py test main")
+        local("python ./manage.py test main")
     with lcd('/home/workspace-django/projects/spr-sorting'):
         local('git checkout master')
         with settings(warn_only = True):
