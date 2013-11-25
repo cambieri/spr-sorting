@@ -3,7 +3,7 @@
 INTERNAL_IPS = ('127.0.0.1',)
 
 ADMINS = (
-	('Oscar Cambieri', 'oscar@localhost'),
+	('Oscar Cambieri', 'oscar@cambieri.it'),
 )
 
 MANAGERS = ADMINS

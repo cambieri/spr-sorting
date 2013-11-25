@@ -3,7 +3,7 @@
 
 
 {# This is the page title #}
-{% block title %}sorting{% endblock %}
+{% block title %}{{ block.super }} - SORTING{% endblock %}
 
 
 {# Content of the page #}
@@ -24,6 +24,14 @@
 								<span class="glyphicon glyphicon-chevron-right"></span>
 							</button>
 						</div>
+						<div class="col-xs-2 text-center">
+							<button type="button" class="btn btn-default btn-xs" style="width: 100px; margin-bottom: 6px;" id="btnRicalcola" name="btnRicalcola" onclick="checkIntersection();">
+								RICALCOLA
+							</button>
+							<button type="button" class="btn btn-default btn-xs" style="width: 100px" id="btnRicalcola" name="btnRicalcola" onclick="alert('ToDo!');">
+								ACCETTA
+							</button>
+						</div>
 						<div class="col-xs-2 text-right">
 							<button type="button" class="btn btn-default btn-lg" id="btnDecOffsetY" name="btnDecOffsetY" onclick="decOffsetY();">
 								<span class="glyphicon glyphicon-chevron-up"></span>
@@ -35,13 +43,13 @@
 						</div>
 						<div class="col-xs-2">
 							<label class="checkbox">  
-                			<input type="checkbox" onclick="if (this.checked) leftWing=-300; else leftWing=0; refresh();">  
+                			<input type="checkbox" onclick="if (this.checked) leftWing=-300; else leftWing=0; refreshCircles();">  
                 			Appendice SX
                 			</label>
                 		</div>
 						<div class="col-xs-2">
 							<label class="checkbox">  
-                			<input type="checkbox" onclick="if (this.checked) rightWing=300; else rightWing=0; refresh();">  
+                			<input type="checkbox" onclick="if (this.checked) rightWing=300; else rightWing=0; refreshCircles();">  
                 			Appendice DX
                 			</label>
                 		</div>
@@ -79,32 +87,32 @@
 				offsetX = offsetX>minOffsetX ? offsetX-10 : minOffsetX;
 				$('#btnDecOffsetX').prop('disabled', offsetX==minOffsetX);
 				$('#btnIncOffsetX').prop('disabled', false);
-				refresh();
+				refreshCircles();
 			}
 			function incOffsetX(valore) {
 				offsetX = offsetX<maxOffsetX ? offsetX+10 : maxOffsetX;
 				$('#btnIncOffsetX').prop('disabled', offsetX==maxOffsetX);
 				$('#btnDecOffsetX').prop('disabled', false);
-				refresh();
+				refreshCircles();
 			}
 			function decOffsetY(valore) {
 				offsetY = offsetY>minOffsetY ? offsetY-10 : minOffsetY;
 				$('#btnDecOffsetY').prop('disabled', offsetY==minOffsetY);
 				$('#btnIncOffsetY').prop('disabled', false);
-				refresh();
+				refreshCircles();
 			}
 			function incOffsetY(valore) {
 				offsetY = offsetY<maxOffsetY ? offsetY+10 : maxOffsetY;
 				$('#btnIncOffsetY').prop('disabled', offsetY==maxOffsetY);
 				$('#btnDecOffsetY').prop('disabled', false);
-				refresh();
+				refreshCircles();
 			}
 			function drawCircle(posX, posY) {
 				var x = posX + offsetX;
 				var y = posY + offsetY;
 				var r = circleRadius;
 				var circle = paper.circle(x, y, r);
-				circle.attr("fill", "#f00");
+				circle.attr("fill", "#fcc");
 				circle.attr("stroke", "#fff");
 				/* var attr = {
 						fill: "#F00",
@@ -194,13 +202,13 @@
 					paper.path(icons[i]).attr(attr);
 				}
 			}
-			function checkIntersection() {
+			/* function checkIntersection() {
 				for (var i=0; i<icons.length; i++) {
 					for (var j=0; j<circles.length; j++) {
-						/* var dotsOfIntersection = Raphael.pathIntersection(icons[i], circles[j]);
-						if (dotsOfIntersection.length > 0) {
-							paper.path(circles[j]).attr("fill", "#00F");
-						} */
+						// var dotsOfIntersection = Raphael.pathIntersection(icons[i], circles[j]);
+						// if (dotsOfIntersection.length > 0) {
+						// 	paper.path(circles[j]).attr("fill", "#00F");
+						// }
 						var x = circles[j].attr('cx');
 						var y = circles[j].attr('cy');
 						if (Raphael.isPointInsidePath(icons[i], x, y)) {
@@ -217,6 +225,42 @@
 						}
 					}
 				}
+			} */
+			function checkIntersection() {
+				for (var j=0; j<circles.length; j++) {
+					var x = circles[j].attr('cx');
+					var y = circles[j].attr('cy');
+					var icon = iconUnderPoint(x, y, circleRadius*2, circleRadius*2);
+					var myColor = "#000";
+					if (icon['icon'] == "") {
+						myColor = "#909090";
+					} else {
+						if (icon['isNotUnload'])
+						{
+							myColor = "#FFFF00";
+						} 
+						else if (icon['isPicked'])
+						{
+							myColor = "#FF8000";
+						}
+						else if (icon['isInsideExternal'] && !icon['isInsideInternal'])
+						{
+							myColor = "#00FF00";
+						}
+						else
+						{
+							myColor = "#FF0000";				
+						}
+					}
+					circles[j].animate({fill:myColor},200);
+				}
+			}
+			function refreshCircles() {
+				for (var j=0; j<circles.length; j++) {
+					circles[j].remove();
+				}
+				circles.length = 0;
+				drawCircles();
 			}
 			function refresh() {
 				paper.clear();

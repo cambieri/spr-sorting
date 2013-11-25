@@ -1,8 +1,14 @@
+# coding: utf-8
+
 from django.template import loader
 import sys
 from django import http
-from django.template.context import Context
-from django.shortcuts import render
+from django.template.context import Context, RequestContext
+from django.shortcuts import render, render_to_response
+from forms import UploadForm
+from django.http.response import HttpResponseRedirect
+from django.core.urlresolvers import reverse
+from sorting.settings.common import MEDIA_ROOT
 # import json
 
 def nondefault_500_error(request, template_name='500nondefault.html'):
@@ -27,5 +33,30 @@ def index(request):
 #     args = {
 #             'icons': json.dumps(icons),
 #             }
-    args = { 'drawSheet': 'Deb_Nest_104956-3-1_0-074_IRONa_lnt02.js', }
+    args = { 'drawSheet': 'js/Deb_Nest_104956-3-1_0-074_IRONa_lnt02.js', }
     return render(request, 'index.html', args)
+
+def upload(request):
+    # Handle file upload
+    if request.method == 'POST':
+        form = UploadForm(request.POST, request.FILES)
+        if form.is_valid():
+#             newdoc = ImaFile(ima_file = request.FILES['ima_file'])
+#             newdoc.save()
+            f = request.FILES['ima_file']
+            with open(MEDIA_ROOT + '/ima/' + f.name, 'wb+') as destination:
+                for chunk in f.chunks():
+                    destination.write(chunk)
+                destination.close()
+
+            # Redirect to the document list after POST
+            return HttpResponseRedirect(reverse('main.views.index'))
+    else:
+        form = UploadForm() # A empty, unbound form
+    # Render list page with the documents and the form
+    return render_to_response(
+        'upload.html',
+        {'form': form},
+        context_instance=RequestContext(request)
+    )
+
