@@ -3,7 +3,7 @@ Created on Nov 2, 2013
 
 @author: val3xiv
 '''
-from sorting.apps.main.ima._enum import Enum
+from main.ima._enum import Enum
 
 class Sheet(object):
     '''

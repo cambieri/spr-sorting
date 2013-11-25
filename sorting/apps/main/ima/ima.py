@@ -9,10 +9,9 @@ from _enum import Enum
 from call import Call
 from part import Part
 from profile import Profile
-from sorting import settings
-from sorting.apps.main.sheet import sheet, profile, segment
-from sorting.apps.main.sheet.icon import Icon
-from sorting.apps.main.sheet.position import Position
+from main.sheet import sheet, profile, segment
+from main.sheet.icon import Icon
+from main.sheet.position import Position
 
 class Ima(object):
     '''
@@ -84,16 +83,12 @@ class Ima(object):
                 myFileText = myCmbSheet.toJS();
             else:
                 myFileText = str(myCmbSheet)
-            myOut = open(os.path.join(self.mediaRoot, value), "w")
+            myOut = open(value, "w")
             myOut.write(myFileText)
             myOut.close()
 
     def __clear(self):
         self.isFile = False
-        try:
-            self.mediaRoot = settings.common.MEDIA_ROOT
-        except:
-            self.mediaRoot = "/tmp";
         self.programName = ""
         self.material = "0"
         self.thickness = 0.0
