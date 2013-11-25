@@ -1,0 +1,31 @@
+{% extends "subsite.html" %}
+{% load i18n %}
+
+
+{# This is the page title #}
+{% block title %}{{ block.super }} - UPLOAD{% endblock %}
+
+
+{# Content of the page #}
+{% block inner_markup %}
+
+	<div class="title">Apertura file IMA<hr/></div>
+
+	<aside id="UploadForm" style="margin: 20px 0px 20px 0px;">
+		{% if form.errors %}
+			<p><div class="errors">Per cortesia, correggete gli errori sottostanti.</div></p>
+		{% endif %}
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>{{ form.non_field_errors }}</p>
+            <p>{{ form.ima_file.label_tag }} {{ form.ima_file.help_text }}</p>
+            <p>
+                {{ form.ima_file.errors }}
+                {{ form.ima_file }}
+            </p>
+            <p><input type="submit" value="CARICA FILE" /></p>
+        </form>
+	</aside>
+
+{% endblock %}
+{# end of content #}
