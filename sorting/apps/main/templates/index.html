@@ -79,9 +79,8 @@
 			var maxOffsetX = 400; var maxOffsetY = 300;
 			var offsetX = 20; var offsetY = 15;
 			// var icons = {{ icons|safe }};
-			var icons = [];
-			var circles = new Array();
-			var circleRadius = 30;
+			var icons = new Array();
+			var suctionCups = new Array();
 			var leftWing = 0; var rightWing = 0;
 			function decOffsetX(valore) {
 				offsetX = offsetX>minOffsetX ? offsetX-10 : minOffsetX;
@@ -107,13 +106,12 @@
 				$('#btnDecOffsetY').prop('disabled', false);
 				refreshCircles();
 			}
-			function drawCircle(posX, posY) {
+			function drawSuctionCup(posX, posY, radiusX, radiusY) {
 				var x = posX + offsetX;
 				var y = posY + offsetY;
-				var r = circleRadius;
-				var circle = paper.circle(x, y, r);
-				circle.attr("fill", "#fcc");
-				circle.attr("stroke", "#fff");
+				var suctionCup = paper.ellipse(x, y, radiusX, radiusY);
+				suctionCup.attr("fill", "#fcc");
+				suctionCup.attr("stroke", "#fff");
 				/* var attr = {
 						fill: "#F00",
 						stroke: "#666",
@@ -122,74 +120,76 @@
 				};
 				var path = "M"+(x)+","+(y-r)+"A"+r+","+r+",0,1,1,"+(x-0.1)+","+(y-r)+"z";
 				paper.path(path).attr(attr); */
-				circles.push(circle);
+				suctionCups.push(suctionCup);
 			}
-			function drawCircles() {
-				/* for (var i=0; i<10; i++) {
-					for (var j=0; j<8; j++) {
-						drawCircle(i*30, j*30);
-					}
-				} */
+			function drawSuctionCups() {
+				for (var i=0; i<cmbS.length; i++) {
+					var item = cmbS[i];
+					offset = item.position=='left' ? leftWing : rightWing;
+					drawSuctionCup(item.x + offset, item.y, item.dimX, item.dimY);
+				}
+				/*
 				// linea 1
-				drawCircle(600+leftWing, 0);
-				drawCircle(830+leftWing, 0);
-				drawCircle(1050+leftWing, 0);
-				drawCircle(1270+leftWing, 0);
-				drawCircle(1670+rightWing, 0);
-				drawCircle(1890+rightWing, 0);
-				drawCircle(2110+rightWing, 0);
-				drawCircle(2340+rightWing, 0);
+				drawSuctionCup(600+leftWing, 0);
+				drawSuctionCup(830+leftWing, 0);
+				drawSuctionCup(1050+leftWing, 0);
+				drawSuctionCup(1270+leftWing, 0);
+				drawSuctionCup(1670+rightWing, 0);
+				drawSuctionCup(1890+rightWing, 0);
+				drawSuctionCup(2110+rightWing, 0);
+				drawSuctionCup(2340+rightWing, 0);
 				// linea 2
-				drawCircle(600+leftWing, 130);
-				drawCircle(830+leftWing, 130);
-				drawCircle(1050+leftWing, 130);
-				drawCircle(1270+leftWing, 130);
-				drawCircle(1670+rightWing, 130);
-				drawCircle(1890+rightWing, 130);
-				drawCircle(2110+rightWing, 130);
-				drawCircle(2340+rightWing, 130);
+				drawSuctionCup(600+leftWing, 130);
+				drawSuctionCup(830+leftWing, 130);
+				drawSuctionCup(1050+leftWing, 130);
+				drawSuctionCup(1270+leftWing, 130);
+				drawSuctionCup(1670+rightWing, 130);
+				drawSuctionCup(1890+rightWing, 130);
+				drawSuctionCup(2110+rightWing, 130);
+				drawSuctionCup(2340+rightWing, 130);
 				// linea 3
-				drawCircle(740+leftWing, 270);
-				drawCircle(2200+rightWing, 270);
+				drawSuctionCup(740+leftWing, 270);
+				drawSuctionCup(2200+rightWing, 270);
 				// linea 4
-				drawCircle(600+leftWing, 390);
-				drawCircle(830+leftWing, 390);
-				drawCircle(1050+leftWing, 390);
-				drawCircle(1270+leftWing, 390);
-				drawCircle(1670+rightWing, 390);
-				drawCircle(1890+rightWing, 390);
-				drawCircle(2110+rightWing, 390);
-				drawCircle(2340+rightWing, 390);
+				drawSuctionCup(600+leftWing, 390);
+				drawSuctionCup(830+leftWing, 390);
+				drawSuctionCup(1050+leftWing, 390);
+				drawSuctionCup(1270+leftWing, 390);
+				drawSuctionCup(1670+rightWing, 390);
+				drawSuctionCup(1890+rightWing, 390);
+				drawSuctionCup(2110+rightWing, 390);
+				drawSuctionCup(2340+rightWing, 390);
 				// linea 5
-				drawCircle(600+leftWing, 590);
-				drawCircle(830+leftWing, 590);
-				drawCircle(1050+leftWing, 590);
-				drawCircle(1270+leftWing, 590);
-				drawCircle(1670+rightWing, 590);
-				drawCircle(1890+rightWing, 590);
-				drawCircle(2110+rightWing, 590);
-				drawCircle(2340+rightWing, 590);
+				drawSuctionCup(600+leftWing, 590);
+				drawSuctionCup(830+leftWing, 590);
+				drawSuctionCup(1050+leftWing, 590);
+				drawSuctionCup(1270+leftWing, 590);
+				drawSuctionCup(1670+rightWing, 590);
+				drawSuctionCup(1890+rightWing, 590);
+				drawSuctionCup(2110+rightWing, 590);
+				drawSuctionCup(2340+rightWing, 590);
 				// linea 6
-				drawCircle(740+leftWing, 710);
-				drawCircle(2200+rightWing, 710);
+				drawSuctionCup(740+leftWing, 710);
+				drawSuctionCup(2200+rightWing, 710);
 				// linea 7
-				drawCircle(600+leftWing, 850);
-				drawCircle(830+leftWing, 850);
-				drawCircle(1050+leftWing, 850);
-				drawCircle(1270+leftWing, 850);
-				drawCircle(1670+rightWing, 850);
-				drawCircle(1890+rightWing, 850);
-				drawCircle(2110+rightWing, 850);
-				drawCircle(2340+rightWing, 850);
+				drawSuctionCup(600+leftWing, 850);
+				drawSuctionCup(830+leftWing, 850);
+				drawSuctionCup(1050+leftWing, 850);
+				drawSuctionCup(1270+leftWing, 850);
+				drawSuctionCup(1670+rightWing, 850);
+				drawSuctionCup(1890+rightWing, 850);
+				drawSuctionCup(2110+rightWing, 850);
+				drawSuctionCup(2340+rightWing, 850);
 				// linea 8
-				drawCircle(600+leftWing, 980);
-				drawCircle(830+leftWing, 980);
-				drawCircle(1050+leftWing, 980);
-				drawCircle(1270+leftWing, 980);
-				drawCircle(1670+rightWing, 980);
-				drawCircle(1890+rightWing, 980);
-				drawCircle(2110+rightWing, 980);
-				drawCircle(2340+rightWing, 980);
+				drawSuctionCup(600+leftWing, 980);
+				drawSuctionCup(830+leftWing, 980);
+				drawSuctionCup(1050+leftWing, 980);
+				drawSuctionCup(1270+leftWing, 980);
+				drawSuctionCup(1670+rightWing, 980);
+				drawSuctionCup(1890+rightWing, 980);
+				drawSuctionCup(2110+rightWing, 980);
+				drawSuctionCup(2340+rightWing, 980);
+				*/
 			}
 			function drawIcons() {
 				var attr = {
@@ -204,20 +204,20 @@
 			}
 			/* function checkIntersection() {
 				for (var i=0; i<icons.length; i++) {
-					for (var j=0; j<circles.length; j++) {
-						// var dotsOfIntersection = Raphael.pathIntersection(icons[i], circles[j]);
+					for (var j=0; j<suctionCups.length; j++) {
+						// var dotsOfIntersection = Raphael.pathIntersection(icons[i], suctionCups[j]);
 						// if (dotsOfIntersection.length > 0) {
-						// 	paper.path(circles[j]).attr("fill", "#00F");
+						// 	paper.path(suctionCups[j]).attr("fill", "#00F");
 						// }
-						var x = circles[j].attr('cx');
-						var y = circles[j].attr('cy');
+						var x = suctionCups[j].attr('cx');
+						var y = suctionCups[j].attr('cy');
 						if (Raphael.isPointInsidePath(icons[i], x, y)) {
-							var radius = circles[j].attr('r');
+							var radius = suctionCups[j].attr('r');
 							if (Raphael.isPointInsidePath(icons[i], x + radius, y)) {
 								if (Raphael.isPointInsidePath(icons[i], x - radius, y)) {
 									if (Raphael.isPointInsidePath(icons[i], x, y + radius)) {
 										if (Raphael.isPointInsidePath(icons[i], x, y - radius)) {
-											circles[j].animate({fill:'blue'},200);
+											suctionCups[j].animate({fill:'blue'},200);
 										}
 									}
 								}
@@ -227,10 +227,8 @@
 				}
 			} */
 			function checkIntersection() {
-				for (var j=0; j<circles.length; j++) {
-					var x = circles[j].attr('cx');
-					var y = circles[j].attr('cy');
-					var icon = iconUnderPoint(x, y, circleRadius*2, circleRadius*2);
+				for (var j=0; j<suctionCups.length; j++) {
+					var icon = iconUnderPoint(suctionCups[j].attr('cx'), suctionCups[j].attr('cy'), suctionCups[j].attr('rx'), suctionCups[j].attr('ry'));
 					var myColor = "#000";
 					if (icon['icon'] == "") {
 						myColor = "#909090";
@@ -252,21 +250,21 @@
 							myColor = "#FF0000";				
 						}
 					}
-					circles[j].animate({fill:myColor},200);
+					suctionCups[j].animate({fill:myColor},200);
 				}
 			}
 			function refreshCircles() {
-				for (var j=0; j<circles.length; j++) {
-					circles[j].remove();
+				for (var j=0; j<suctionCups.length; j++) {
+					suctionCups[j].remove();
 				}
-				circles.length = 0;
-				drawCircles();
+				suctionCups.length = 0;
+				drawSuctionCups();
 			}
 			function refresh() {
 				paper.clear();
 				// drawIcons();
 				drawSheet();
-				drawCircles();
+				drawSuctionCups();
 				checkIntersection();
 			}
 			function readyFn( jQuery ) {
