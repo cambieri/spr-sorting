@@ -4,6 +4,7 @@ Created on Nov 2, 2013
 @author: val3xiv
 '''
 from main.ima._enum import Enum
+from sorting.settings.common import SUCTION_CUPS
 
 class Sheet(object):
     '''
@@ -77,6 +78,15 @@ class Sheet(object):
         ret += 'var yRatio = windowHeight / ' + str(self.dimY) + '; \n'
         ret += 'var ratio = (xRatio < yRatio) ? xRatio : yRatio; \n\n'
         ret += "var cmbR = Raphael('cmbR', " + str(self.dimX) + " * ratio, " + str(self.dimY) + " * ratio); \n"        
+        ret += "var cmbS = new Array(); \n"
+        for mySuctionCup in SUCTION_CUPS:
+            myScArray = '{"index":' + str(mySuctionCup[0])
+            myScArray += ', "x":'  + str(mySuctionCup[1])
+            myScArray += ', "y":'  + str(mySuctionCup[2])
+            myScArray += ', "dimX":'  + str(mySuctionCup[3])
+            myScArray += ', "dimY":'  + str(mySuctionCup[4])
+            myScArray += ', "position":"'  + mySuctionCup[5] + '"}'
+            ret += "cmbS.push(" + myScArray + "); \n"                                    
         ret += "cmbR.setViewBox(0,0,"+ str(self.dimX) + "," + str(self.dimY) + "); \n"
         ret += "cmbI = cmbR.set(); \n"
         ret += "cmbNotunload = cmbR.set(); \n"
