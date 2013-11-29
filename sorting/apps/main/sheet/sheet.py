@@ -78,15 +78,6 @@ class Sheet(object):
         ret += 'var yRatio = windowHeight / ' + str(self.dimY) + '; \n'
         ret += 'var ratio = (xRatio < yRatio) ? xRatio : yRatio; \n\n'
         ret += "var cmbR = Raphael('cmbR', " + str(self.dimX) + " * ratio, " + str(self.dimY) + " * ratio); \n"        
-        ret += "var cmbS = new Array(); \n"
-        for mySuctionCup in SUCTION_CUPS:
-            myScArray = '{"index":' + str(mySuctionCup[0])
-            myScArray += ', "x":'  + str(mySuctionCup[1])
-            myScArray += ', "y":'  + str(mySuctionCup[2])
-            myScArray += ', "dimX":'  + str(mySuctionCup[3])
-            myScArray += ', "dimY":'  + str(mySuctionCup[4])
-            myScArray += ', "position":"'  + mySuctionCup[5] + '"}'
-            ret += "cmbS.push(" + myScArray + "); \n"                                    
         ret += "cmbR.setViewBox(0,0,"+ str(self.dimX) + "," + str(self.dimY) + "); \n"
         ret += "cmbI = cmbR.set(); \n"
         ret += "cmbNotunload = cmbR.set(); \n"
@@ -103,6 +94,16 @@ class Sheet(object):
         ret += ", 'stroke-width': '" + "0" + "'"
         ret += ", 'stroke-opacity': '" + "1" + "'"
         ret += "}); \n\n"
+        ret += "var cmbS = new Array(); \n"
+        for mySuctionCup in SUCTION_CUPS:
+            myScArray = '{"index":' + str(mySuctionCup[0])
+            myScArray += ', "x":'  + str(mySuctionCup[1])
+            myScArray += ', "y":'  + str(mySuctionCup[2])
+            myScArray += ', "dimX":'  + str(mySuctionCup[3])
+            myScArray += ', "dimY":'  + str(mySuctionCup[4])
+            myScArray += ', "position":"'  + mySuctionCup[5] + '"}'
+            ret += "cmbS.push(" + myScArray + "); \n"
+        ret += "\n"                                    
         myTab = ""
         if (functionName != None):
             ret += "function " + functionName + " \n"

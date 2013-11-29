@@ -14,9 +14,6 @@ while True:
 	myImaList = [myMember for myMember in glob.glob(os.path.join(MEDIA_ROOT, "ima", "*")) if os.path.isfile(myMember)]
 	for myMember in myImaList:
 		myJsFile = os.path.join(MEDIA_ROOT, "js", os.path.basename(myMember) + ".js")
-		if not os.path.exists(os.path.join(MEDIA_ROOT, "js", myMember + ".js")):
+		if not os.path.exists(myJsFile):
 			myIma = Ima(myMember, myJsFile)
 	time.sleep(10)
-
-
-	
