@@ -51,10 +51,12 @@ Mission.prototype.drawSuctionCup = function(posX, posY, radiusX, radiusY) {
 		if (suctionCup.attr("fill") == "#00FF00") { suctionCup.animate({fill:"#FF0000"},200); }
 		else if (suctionCup.attr("fill") == "#FF0000") { suctionCup.animate({fill:"#00FF00"},200); }
 		else if (suctionCup.attr("fill") == "#909090") { suctionCup.animate({fill:"#00FF00"},200); }
+		else if (suctionCup.attr("fill") == "#FF8000") { suctionCup.animate({fill:"#00FF00"},200); }
 	}
 	this.suctionCups.push(suctionCup);
 };
 Mission.prototype.drawSuctionCups = function() {
+	this.suctionCups.length = 0;
 	for (var i=0; i<cmbS.length; i++) {
 		var item = cmbS[i];
 		var offset = item.position=='left' ? this.leftWing : this.rightWing;
