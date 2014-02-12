@@ -9,62 +9,6 @@
 {# Content of the page #}
 {% block inner_markup %}
 					<div class="title">Benvenuti su spr-sorting</div>
-					<div class="row top-buffer text-center">
-						<div class="col-xs-4">
-							<p>OFFSET VENTOSE</p>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-xs-2">
-							<button type="button" class="btn btn-default btn-lg" id="btnDecOffsetX" name="btnDecOffsetX" onclick="decOffsetX();">
-								<span class="glyphicon glyphicon-chevron-left"></span>
-							</button>
-							X
-							<button type="button" class="btn btn-default btn-lg" id="btnIncOffsetX" name="btnIncOffsetX" onclick="incOffsetX();">
-								<span class="glyphicon glyphicon-chevron-right"></span>
-							</button>
-						</div>
-						<div class="col-xs-2 text-center">
-							<button type="button" class="btn btn-default btn-xs" style="width: 100px; margin-bottom: 6px;" id="btnRicalcola" name="btnRicalcola" onclick="checkIntersection();">
-								RICALCOLA
-							</button>
-							<button type="button" class="btn btn-default btn-xs" style="width: 100px" id="btnRicalcola" name="btnRicalcola" onclick="alert('ToDo!');">
-								ACCETTA
-							</button>
-						</div>
-						<div class="col-xs-2 text-right">
-							<button type="button" class="btn btn-default btn-lg" id="btnDecOffsetY" name="btnDecOffsetY" onclick="decOffsetY();">
-								<span class="glyphicon glyphicon-chevron-up"></span>
-							</button>
-							Y
-							<button type="button" class="btn btn-default btn-lg" id="btnIncOffsetY" name="btnIncOffsetY" onclick="incOffsetY();">
-								<span class="glyphicon glyphicon-chevron-down"></span>
-							</button>
-						</div>
-						<div class="col-xs-2">
-							<label class="checkbox">  
-                			<input type="checkbox" onclick="if (this.checked) leftWing=-300; else leftWing=0; refreshCircles();">  
-                			Appendice SX
-                			</label>
-                		</div>
-						<div class="col-xs-2">
-							<label class="checkbox">  
-                			<input type="checkbox" onclick="if (this.checked) rightWing=300; else rightWing=0; refreshCircles();">  
-                			Appendice DX
-                			</label>
-                		</div>
-					</div>
-					<div class="row top-buffer">
-						<div class="col-xs-12">
-							<p>PRIMA MISSIONE</p>
-							<div id="cmbR" style="width:100%;height:300px"></div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-xs-12">
-							<p>SECONDA MISSIONE...</p>
-						</div>
-					</div>
 {% endblock %}
 {# end of content #}
 
@@ -72,6 +16,8 @@
 {{ block.super }}
 		<script type="text/javascript" src="{{ STATIC_URL }}js/cmbRaphael.js"></script>
 		<script type="text/javascript" src="{{ MEDIA_URL }}{{ drawSheet }}"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/sorting.js"></script>
+		<!-- 
 		<script type="text/javascript">
 			// var paper = Raphael("placeholder", "100%", "100%");
 			var paper = cmbR;
@@ -110,8 +56,8 @@
 				var x = posX + offsetX;
 				var y = posY + offsetY;
 				var suctionCup = paper.ellipse(x, y, radiusX, radiusY);
-				suctionCup.attr("fill", "#fcc");
-				suctionCup.attr("stroke", "#fff");
+				suctionCup.attr("fill", "#909090");
+				suctionCup.attr("stroke", "#FFFFFF");
 				/* var attr = {
 						fill: "#F00",
 						stroke: "#666",
@@ -120,6 +66,11 @@
 				};
 				var path = "M"+(x)+","+(y-r)+"A"+r+","+r+",0,1,1,"+(x-0.1)+","+(y-r)+"z";
 				paper.path(path).attr(attr); */
+				suctionCup.node.onclick = function() { 
+					if (suctionCup.attr("fill") == "#00FF00") { suctionCup.animate({fill:"#FF0000"},200); }
+					else if (suctionCup.attr("fill") == "#FF0000") { suctionCup.animate({fill:"#00FF00"},200); }
+					else if (suctionCup.attr("fill") == "#909090") { suctionCup.animate({fill:"#00FF00"},200); }
+				}
 				suctionCups.push(suctionCup);
 			}
 			function drawSuctionCups() {
@@ -253,6 +204,20 @@
 					suctionCups[j].animate({fill:myColor},200);
 				}
 			}
+			function nextStep() {
+				for (var j=0; j<suctionCups.length; j++) {
+					if (suctionCups[j].attr('fill') == "#00FF00") {
+						var icon = iconUnderPoint(suctionCups[j].attr('cx'), suctionCups[j].attr('cy'), suctionCups[j].attr('rx'), suctionCups[j].attr('ry'));
+						icon['isPicked'] = true;
+						var iconId = icon['icon'];
+						for (var i=0; i<cmbI.length; i++) {
+							if (cmbI[i]["id"] == iconId) {
+								cmbI[i][0].animate({fill:"#FFFFFF"},200);
+							}
+						}
+					}
+				}
+			}
 			function refreshCircles() {
 				for (var j=0; j<suctionCups.length; j++) {
 					suctionCups[j].remove();
@@ -274,4 +239,5 @@
 			}
 			$(document).ready(readyFn);
 		</script>
+		-->
 {% endblock %}

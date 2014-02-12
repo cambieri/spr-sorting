@@ -1,3 +1,36 @@
+(function (R) {
+    var cloneSet; // to cache set cloning function for optimisation
+    
+    /**
+     * Clones Raphael element from one paper to another
+     *     
+     * @param {Paper} targetPaper is the paper to which this element 
+     * has to be cloned
+     *
+     * @return RaphaelElement
+     */
+    R.el.cloneToPaper = function (targetPaper) {
+        return (!this.removed &&
+            targetPaper[this.type]().attr(this.attr()));
+    };
+    
+    /**
+     * Clones Raphael Set from one paper to another
+     *     
+     * @param {Paper} targetPaper is the paper to which this element 
+     * has to be cloned
+     *
+     * @return RaphaelSet
+     */
+    R.st.cloneToPaper = function (targetPaper) {
+        targetPaper.setStart();
+        this.forEach(cloneSet || (cloneSet = function (el) {
+            el.cloneToPaper(targetPaper);
+        }));
+        return targetPaper.setFinish();
+    };
+}(Raphael));
+
 function pathArrayToString(pathArray)
 {
 	var length1 = pathArray.length,
