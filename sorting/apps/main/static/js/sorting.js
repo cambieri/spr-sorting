@@ -23,7 +23,7 @@ function Mission(paper, missionNum) {
 	this.offsetX = 20;
 	this.offsetY = 15;
 	
-	this.icons = null;
+	this.icons = cmbI;
 	this.suctionCups = new Array();
 	this.picked = new Array();
 	this.leftWing = 0;
@@ -80,19 +80,29 @@ Mission.prototype.drawSuctionCups = function() {
 	}
 };
 Mission.prototype.drawIcons = function() {
-	cmbI.clear();
+	this.icons.clear();
 	drawSheet();
 	// metto in grigio chiaro le picked in precedenti missioni
-	for (var i=0; i<cmbI.length; i++) {
+	for (var i=0; i<this.icons.length; i++) {
+		this.icons[i][0].data("picked", 0);
 		for (var j=0; j<app.missions.length; j++) {
-			if (app.missions[j].picked.indexOf(cmbI[i]["id"])>-1) { // se picked
-				cmbI[i][0].animate({fill:"#AAAAAA"},200);
-				cmbI[i][0].data("picked", 1);
+			if (app.missions[j].picked.indexOf(this.icons[i]["id"])>-1) { // se picked
+				this.icons[i][0].animate({fill:"#AAAAAA"},200);
+				this.icons[i][0].data("picked", 1);
 			}
 		}
 	}
-	this.icons = cmbI;
 };
+Mission.prototype.unpickAll = function() {
+	// metto in grigio chiaro le picked
+	for (var i=0; i<this.icons.length; i++) {
+		if (this.picked.indexOf(this.icons[i]["id"])>-1) { // se picked
+			this.icons[i][0].animate({fill:"#585858"},200);
+			this.icons[i][0].data("picked", 0);
+		}
+	}
+	this.picked.length = 0; // pulisce array
+}
 Mission.prototype.checkIntersection = function() {
 	for (var j=0; j<this.suctionCups.length; j++) {
 		var icon = iconUnderPoint(this.suctionCups[j].attr('cx'), this.suctionCups[j].attr('cy'), this.suctionCups[j].attr('rx'), this.suctionCups[j].attr('ry'));
@@ -126,10 +136,10 @@ Mission.prototype.acceptMission = function() {
 		if (this.suctionCups[j].attr('fill') == "#00FF00") {
 			var icon = iconUnderPoint(this.suctionCups[j].attr('cx'), this.suctionCups[j].attr('cy'), this.suctionCups[j].attr('rx'), this.suctionCups[j].attr('ry'));
 			var iconId = icon['icon'];
-			for (var i=0; i<cmbI.length; i++) {
-				if (cmbI[i]["id"] == iconId) {
-					cmbI[i][0].animate({fill:"#FFFFFF"},200);
-					this.picked.push(cmbI[i]["id"]);
+			for (var i=0; i<this.icons.length; i++) {
+				if (this.icons[i]["id"] == iconId) {
+					this.icons[i][0].animate({fill:"#FFFFFF"},200);
+					this.picked.push(this.icons[i]["id"]);
 				}
 			}
 		}
@@ -144,6 +154,7 @@ Mission.prototype.refreshCircles = function() {
 	this.drawSuctionCups();
 };
 Mission.prototype.refresh = function() {
+	this.picked.length = 0;
 	this.paper.clear();
 	this.drawIcons();
 	this.drawSuctionCups();
@@ -194,6 +205,8 @@ var app = {
 			app.currentMission = app.missions[missionNum];
 			cmbR = app.currentMission.paper;
 			cmbI = app.currentMission.icons;
+//			app.currentMission.unpickAll();
+			app.currentMission.refresh();
 		}
 	},
 };
@@ -201,7 +214,7 @@ var app = {
 var missionTemplate;
 $( document ).ready(function() {
 	$('body').css('background-color', '#E6E6E6');
-	$.get('/media/mission.html', function(d){
+	$.get('/static/mustache/mission.html', function(d){
 		missionTemplate = d;
 		app.setMission(0);
 	});
