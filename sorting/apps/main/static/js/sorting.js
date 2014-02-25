@@ -1,3 +1,15 @@
+// Aggiunto a jquery metodi per abilitare / disabilitare elementi
+$.fn.disable = function() {
+    return this.each(function() {
+        if (typeof this.disabled != "undefined") this.disabled = true;
+    });
+}
+$.fn.enable = function() {
+    return this.each(function() {
+        if (typeof this.disabled != "undefined") this.disabled = false;
+    });
+}
+
 // CLASSE Mission BEGIN
 function Mission(paper, missionNum) {
 //		paper: cmbR,
@@ -19,26 +31,26 @@ function Mission(paper, missionNum) {
 };		
 Mission.prototype.decOffsetX = function(valore) {
 	this.offsetX = this.offsetX>this.minOffsetX ? this.offsetX-10 : this.minOffsetX;
-	$('#btnDecOffsetX').prop('disabled', this.offsetX==this.minOffsetX);
-	$('#btnIncOffsetX').prop('disabled', false);
+	$('#btnDecOffsetX'+this.missionNum).prop('disabled', this.offsetX==this.minOffsetX);
+	$('#btnIncOffsetX'+this.missionNum).prop('disabled', false);
 	this.refreshCircles();
 };
 Mission.prototype.incOffsetX = function(valore) {
 	this.offsetX = this.offsetX<this.maxOffsetX ? this.offsetX+10 : this.maxOffsetX;
-	$('#btnIncOffsetX').prop('disabled', this.offsetX==this.maxOffsetX);
-	$('#btnDecOffsetX').prop('disabled', false);
+	$('#btnIncOffsetX'+this.missionNum).prop('disabled', this.offsetX==this.maxOffsetX);
+	$('#btnDecOffsetX'+this.missionNum).prop('disabled', false);
 	this.refreshCircles();
 };
 Mission.prototype.decOffsetY = function(valore) {
 	this.offsetY = this.offsetY>this.minOffsetY ? this.offsetY-10 : this.minOffsetY;
-	$('#btnDecOffsetY').prop('disabled', this.offsetY==this.minOffsetY);
-	$('#btnIncOffsetY').prop('disabled', false);
+	$('#btnDecOffsetY'+this.missionNum).prop('disabled', this.offsetY==this.minOffsetY);
+	$('#btnIncOffsetY'+this.missionNum).prop('disabled', false);
 	this.refreshCircles();
 };
 Mission.prototype.incOffsetY = function(valore) {
 	this.offsetY = this.offsetY<this.maxOffsetY ? this.offsetY+10 : this.maxOffsetY;
-	$('#btnIncOffsetY').prop('disabled', this.offsetY==this.maxOffsetY);
-	$('#btnDecOffsetY').prop('disabled', false);
+	$('#btnIncOffsetY'+this.missionNum).prop('disabled', this.offsetY==this.maxOffsetY);
+	$('#btnDecOffsetY'+this.missionNum).prop('disabled', false);
 	this.refreshCircles();
 };
 Mission.prototype.drawSuctionCup = function(posX, posY, radiusX, radiusY) {
@@ -47,11 +59,15 @@ Mission.prototype.drawSuctionCup = function(posX, posY, radiusX, radiusY) {
 	var suctionCup = this.paper.ellipse(x, y, radiusX, radiusY);
 	suctionCup.attr("fill", "#909090");
 	suctionCup.attr("stroke", "#FFFFFF");
-	suctionCup.node.onclick = function() { 
-		if (suctionCup.attr("fill") == "#00FF00") { suctionCup.animate({fill:"#FF0000"},200); }
-		else if (suctionCup.attr("fill") == "#FF0000") { suctionCup.animate({fill:"#00FF00"},200); }
-		else if (suctionCup.attr("fill") == "#909090") { suctionCup.animate({fill:"#00FF00"},200); }
-		else if (suctionCup.attr("fill") == "#FF8000") { suctionCup.animate({fill:"#00FF00"},200); }
+	suctionCup.node.onclick = function() {
+		var thisMissionId = this.parentNode.parentNode.parentNode.parentNode.id;
+		var currentMissionId = 'mission' + app.currentMission.missionNum;
+		if (thisMissionId === currentMissionId) {
+			if (suctionCup.attr("fill") == "#00FF00") { suctionCup.animate({fill:"#FF0000"},200); }
+			else if (suctionCup.attr("fill") == "#FF0000") { suctionCup.animate({fill:"#00FF00"},200); }
+			else if (suctionCup.attr("fill") == "#909090") { suctionCup.animate({fill:"#00FF00"},200); }
+			else if (suctionCup.attr("fill") == "#FF8000") { suctionCup.animate({fill:"#00FF00"},200); }
+		}
 	}
 	this.suctionCups.push(suctionCup);
 };
@@ -139,7 +155,12 @@ var app = {
 	missions: new Array(),
 	currentMission: null,
 	setMission: function(missionNum) {
-		if (missionNum <= this.missions.length) {
+		if (app.currentMission) {
+			$('#mission'+app.currentMission.missionNum + " *").disable();
+		}
+		if (missionNum === this.missions.length) {
+			if (app.currentMission) { $('#btnRivedi'+app.currentMission.missionNum).enable(); }
+			
 			var missionDiv = Mustache.render(missionTemplate, {missionNum: missionNum});
 			$('.content').append(missionDiv);
 			
@@ -166,6 +187,13 @@ var app = {
 			app.currentMission.refresh();
 		} else {
 			// tornare a missione già creata
+			$('#btnRivedi'+app.currentMission.missionNum).enable();
+//			alert('tornare a missione ' + missionNum);
+			$('#mission'+missionNum + " *").enable();
+			$('#btnRivedi'+missionNum).disable();
+			app.currentMission = app.missions[missionNum];
+			cmbR = app.currentMission.paper;
+			cmbI = app.currentMission.icons;
 		}
 	},
 };
