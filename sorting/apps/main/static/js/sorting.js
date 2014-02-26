@@ -209,6 +209,32 @@ var app = {
 			app.currentMission.refresh();
 		}
 	},
+	deleteMission: function(missionNum) {
+		if (app.missions.length > 1) {
+			app.missions.splice(missionNum, 1);
+			$('#mission'+missionNum).remove();
+			for ( var i = missionNum; i < app.missions.length; i++) {
+				app.missions[i].missionNum = i;
+				$('#mission'+(i+1)).attr('id','mission'+i);
+				$('#txtTitolo'+(i+1)).html('MISSIONE '+i);
+				$('#txtTitolo'+(i+1)).attr('id','txtTitolo'+i);
+				$('#btnDecOffsetX'+(i+1)).attr('id','btnDecOffsetX'+i);
+				$('#btnIncOffsetX'+(i+1)).attr('id','btnIncOffsetX'+i);
+				$('#btnRicalcola'+(i+1)).attr('id','btnRicalcola'+i);
+				$('#btnAccetta'+(i+1)).attr('id','btnAccetta'+i);
+				$('#btnDecOffsetY'+(i+1)).attr('id','btnDecOffsetY'+i);
+				$('#cmbR'+(i+1)).attr('id','cmbR'+i);
+				$("#btnRivedi"+(i+1)).attr('onclick','app.setMission('+i+');');
+				$('#btnRivedi'+(i+1)).attr('id','btnRivedi'+i);
+				$('#btnCancella'+(i+1)).attr('onclick','app.deleteMission('+i+');');
+				$('#btnCancella'+(i+1)).attr('id','btnCancella'+i);
+			}
+			var newCurrentMission = (missionNum>0) ? app.missions[missionNum-1] : app.missions[0];
+//			app.setMission(newCurrentMission);
+		} else {
+			alert("Impossibile cancellare tutte le missioni");
+		}
+	},
 };
 
 var missionTemplate;

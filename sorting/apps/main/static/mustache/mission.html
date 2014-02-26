@@ -6,33 +6,33 @@
 						</div> -->
 						<div class="row top-buffer" style="margin-bottom: 10px;">
 							<div class="col-xs-12">
-								<div class="title">MISSIONE NUMERO {{missionNum}}</div>
+								<div class="title" id="txtTitolo{{missionNum}}">MISSIONE {{missionNum}}</div>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-xs-2 col-sm-offset-3">
-								<button type="button" class="btn btn-default btn-lg" id="btnDecOffsetX{{missionNum}}" name="btnDecOffsetX{{missionNum}}" onclick="app.currentMission.decOffsetX();">
+								<button type="button" class="btn btn-default btn-lg" id="btnDecOffsetX{{missionNum}}" onclick="app.currentMission.decOffsetX();">
 									<span class="glyphicon glyphicon-chevron-left"></span>
 								</button>
 								X
-								<button type="button" class="btn btn-default btn-lg" id="btnIncOffsetX{{missionNum}}" name="btnIncOffsetX{{missionNum}}" onclick="app.currentMission.incOffsetX();">
+								<button type="button" class="btn btn-default btn-lg" id="btnIncOffsetX{{missionNum}}" onclick="app.currentMission.incOffsetX();">
 									<span class="glyphicon glyphicon-chevron-right"></span>
 								</button>
 							</div>
 							<div class="col-xs-2 text-center">
-								<button type="button" class="btn btn-default btn-xs" style="width: 100px; margin-bottom: 6px;" id="btnRicalcola{{missionNum}}" name="btnRicalcola{{missionNum}}" onclick="app.currentMission.refresh();">
+								<button type="button" class="btn btn-default btn-xs" style="width: 100px; margin-bottom: 6px;" id="btnRicalcola{{missionNum}}" onclick="app.currentMission.refresh();">
 									RICALCOLA
 								</button>
-								<button type="button" class="btn btn-default btn-xs" style="width: 100px" id="btnAccetta{{missionNum}}" name="btnAccetta{{missionNum}}" onclick="app.currentMission.acceptMission();">
+								<button type="button" class="btn btn-default btn-xs" style="width: 100px" id="btnAccetta{{missionNum}}" onclick="app.currentMission.acceptMission();">
 									ACCETTA
 								</button>
 							</div>
 							<div class="col-xs-2 text-right">
-								<button type="button" class="btn btn-default btn-lg" id="btnDecOffsetY{{missionNum}}" name="btnDecOffsetY{{missionNum}}" onclick="app.currentMission.decOffsetY();">
+								<button type="button" class="btn btn-default btn-lg" id="btnDecOffsetY{{missionNum}}" onclick="app.currentMission.decOffsetY();">
 									<span class="glyphicon glyphicon-chevron-up"></span>
 								</button>
 								Y
-								<button type="button" class="btn btn-default btn-lg" id="btnIncOffsetY{{missionNum}}" name="btnIncOffsetY{{missionNum}}" onclick="app.currentMission.incOffsetY();">
+								<button type="button" class="btn btn-default btn-lg" id="btnIncOffsetY{{missionNum}}" onclick="app.currentMission.incOffsetY();">
 									<span class="glyphicon glyphicon-chevron-down"></span>
 								</button>
 							</div>
@@ -47,12 +47,15 @@
 	                		</div>
 						</div>
 						<div class="row">
-							<div id="cmbR{{missionNum}}" style="width:100%;height:300px"></div>
+							<div id="cmbR{{missionNum}}" style="width:100%; height:300px;"></div>
 						</div>
 						<div class="row">
 							<div class="col-xs-6 col-sm-offset-3">
-								<button type="button" class="btn btn-default btn-xs" style="width: 100%" id="btnRivedi{{missionNum}}" name="btnRivedi{{missionNum}}" onclick="app.setMission({{missionNum}});" disabled="disabled">
+								<button type="button" class="btn btn-default btn-xs" style="width: 100%;" id="btnRivedi{{missionNum}}" onclick="app.setMission({{missionNum}});" disabled="disabled">
 									RIVEDI
+								</button>
+								<button type="button" class="btn btn-default btn-xs" style="width: 100%; margin-top: 10px;" id="btnCancella{{missionNum}}" onclick="app.deleteMission({{missionNum}});">
+									CANCELLA
 								</button>
 							</div>
 						</div>
