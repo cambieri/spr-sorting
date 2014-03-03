@@ -11,32 +11,32 @@
 
     <title>
         {% block title %}
-    {% endblock %}
-        </title>
+    	{% endblock %}
+    </title>
 
     <meta name="description" content="{% block meta-description %}{% endblock %}" />
 
     <meta name="keywords" content="{% block meta-keywords %}{% endblock %}" />
     <meta name="author" content="localhost" />
 
-        {% block meta %}
+    {% block meta %}
     {% endblock %}
     
     <!--<link rel="shortcut icon" href="{{ STATIC_URL }}images/favicon.ico" />-->
     <meta name="viewport" content="width=device-width" />
 
-        {% block css %}
+    {% block css %}
     {% endblock %}
     
-        {% block js_head %}
+    {% block js_head %}
     {% endblock %}
-    </head>
+</head>
 
 <body class="{{ LANGUAGE_CODE }}">
         {% block markup %}
-    {% endblock %}
+    	{% endblock %}
     
         {% block js %}
-    {% endblock %}
-    </body>
+    	{% endblock %}
+</body>
 </html>

@@ -1,7 +1,7 @@
 @CHARSET "UTF-8";
 
 body {
-	/* background-color: black; */
+	background-color: #E6E6E6;
 	padding-top: 40px;
 	padding-bottom: 40px;
 	font-size: 12px;
@@ -11,14 +11,14 @@ body {
 }
 
 header {
-	background-color: white;
+	background-color: #E6E6E6;
 	color: #333;
 	text-align: center;
 	font-size: 14px;
 	line-height: 42px;
 	position: fixed;
 	top: 0px;
-	height: 160px;
+	/* height: 160px; */
 	z-index: 999;
 	width: 978px;
 }
@@ -33,7 +33,7 @@ footer {
 }
 
 .content {
-	margin-top: 160px;
+	margin-top: 150px;
 	margin-bottom: 20px;
 	width: 978px;
 	text-align: center;
@@ -47,3 +47,10 @@ footer {
 }
 
 .top-buffer { margin-top:20px; }
+
+#id_ima_file {
+	margin-left: auto;
+	margin-right: auto;
+	/* position: absolute;
+	top: -100px; */
+}

@@ -11,6 +11,8 @@ from django.core.urlresolvers import reverse
 from sorting.settings.common import MEDIA_ROOT
 # import json
 
+from main.ima.ima import Ima
+
 def nondefault_500_error(request, template_name='500nondefault.html'):
     """
     500 error handler for debug.
@@ -33,7 +35,10 @@ def index(request):
 #     args = {
 #             'icons': json.dumps(icons),
 #             }
-    args = { 'drawSheet': 'js/Deb_Nest_104956-3-1_0-074_IRONa_lnt02.js', }
+    args = { 'drawSheet': 'Deb_Nest_104956-3-1_0-074_IRONa_lnt02.js', }
+    return show(request, args)
+
+def show(request, args):
     return render(request, 'index.html', args)
 
 def upload(request):
@@ -48,9 +53,13 @@ def upload(request):
                 for chunk in f.chunks():
                     destination.write(chunk)
                 destination.close()
-
-            # Redirect to the document list after POST
-            return HttpResponseRedirect(reverse('main.views.index'))
+            
+            # Instanziando Ima crea automaticamente il file js!
+            ima_file_name = f.name
+            js_file_name = ima_file_name[:ima_file_name.rfind('.')]+'.js'
+            Ima(MEDIA_ROOT + '/ima/' + ima_file_name, MEDIA_ROOT + '/js/' + js_file_name)
+            args = { 'drawSheet': js_file_name, }
+            return show(request, args)
     else:
         form = UploadForm() # A empty, unbound form
     # Render list page with the documents and the form

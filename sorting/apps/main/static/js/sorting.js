@@ -216,7 +216,7 @@ var app = {
 			for ( var i = missionNum; i < app.missions.length; i++) {
 				app.missions[i].missionNum = i;
 				$('#mission'+(i+1)).attr('id','mission'+i);
-				$('#txtTitolo'+(i+1)).html('MISSIONE '+i);
+				$('#txtTitolo'+(i+1)).html('MISSIONE '+(i+1));
 				$('#txtTitolo'+(i+1)).attr('id','txtTitolo'+i);
 				$('#btnDecOffsetX'+(i+1)).attr('id','btnDecOffsetX'+i);
 				$('#btnIncOffsetX'+(i+1)).attr('id','btnIncOffsetX'+i);
@@ -239,7 +239,7 @@ var app = {
 
 var missionTemplate;
 $( document ).ready(function() {
-	$('body').css('background-color', '#E6E6E6');
+//	$('body').css('background-color', '#E6E6E6');
 	$.get('/static/mustache/mission.html', function(d){
 		missionTemplate = d;
 		app.setMission(0);

@@ -6,7 +6,8 @@
 						</div> -->
 						<div class="row top-buffer" style="margin-bottom: 10px;">
 							<div class="col-xs-12">
-								<div class="title" id="txtTitolo{{missionNum}}">MISSIONE {{missionNum}}</div>
+								<div class="title" id="txtTitolo{{missionNum}}"></div>
+								<script>document.getElementById('txtTitolo{{missionNum}}').innerHTML = 'MISSIONE ' + ({{missionNum}}+1);</script>
 							</div>
 						</div>
 						<div class="row">

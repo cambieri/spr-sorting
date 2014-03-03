@@ -23,9 +23,18 @@
                 {{ form.ima_file.errors }}
                 {{ form.ima_file }}
             </p>
-            <p><input type="submit" value="CARICA FILE" /></p>
+            <p><input type="submit" value="CONFERMA IL CARICAMENTO DEL FILE" /></p>
         </form>
 	</aside>
 
 {% endblock %}
 {# end of content #}
+
+{% block js %}
+{{ block.super }}
+		<script type="text/javascript">
+		$(function() {
+			$('#id_ima_file').show().focus();
+		});
+		</script>
+{% endblock %}
