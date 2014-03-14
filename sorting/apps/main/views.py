@@ -6,8 +6,8 @@ from django import http
 from django.template.context import Context, RequestContext
 from django.shortcuts import render, render_to_response
 from forms import UploadForm
-from django.http.response import HttpResponseRedirect
-from django.core.urlresolvers import reverse
+from django.http.response import HttpResponse, Http404
+
 from sorting.settings.common import MEDIA_ROOT
 # import json
 
@@ -69,3 +69,18 @@ def upload(request):
         context_instance=RequestContext(request)
     )
 
+def save(request):
+    # Handle missions export
+    if request.is_ajax():
+        try:
+            js_file_name = request.REQUEST['file_name']
+            sorting_file_name = js_file_name[:js_file_name.rfind('.')]+'.sor'
+            missions_data = request.REQUEST['missions']
+            with open(MEDIA_ROOT + '/sorting/' + sorting_file_name, 'wb+') as destination:
+                destination.write(missions_data)
+                destination.close()    
+        except KeyError:
+            return HttpResponse('Error') # incorrect post
+        return HttpResponse('"Missioni salvate correttamente sul file: ' + sorting_file_name)
+    else:
+        raise Http404

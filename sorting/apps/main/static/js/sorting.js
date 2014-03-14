@@ -213,7 +213,7 @@ var app = {
 		if (app.missions.length > 1) {
 			app.missions.splice(missionNum, 1);
 			$('#mission'+missionNum).remove();
-			for ( var i = missionNum; i < app.missions.length; i++) {
+			for (var i = missionNum; i < app.missions.length; i++) {
 				app.missions[i].missionNum = i;
 				$('#mission'+(i+1)).attr('id','mission'+i);
 				$('#txtTitolo'+(i+1)).html('MISSIONE '+(i+1));
@@ -235,6 +235,35 @@ var app = {
 			alert("Impossibile cancellare tutte le missioni");
 		}
 	},
+	saveMissionReplacer: function(key, value) {
+		if (value instanceof Mission) {
+			var sc = new Array();
+			for (var i=0; i<value.suctionCups.length; i++) {
+				sc.push({"index":cmbS[i].index, "color":value.suctionCups[i].attr('fill')});
+			}
+			return {"missionNum":value.missionNum+1, "offsetX":value.offsetX, "offsetY":value.offsetY, "leftWing":value.leftWing, "rightWing":value.rightWing, "suctionCups":sc};
+		} else {
+			return value;
+		}
+	},
+	saveMissions: function(fileName) {
+        var board = $('#game-board').attr('data-board-id');
+        $.ajax({
+            type: "POST",
+            url: "/save",
+            data: {
+                csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+                file_name: fileName,
+                missions: JSON.stringify(app.missions, app.saveMissionReplacer),
+            },
+            success: function(data) {
+                alert(data);
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                alert("Errore: "+errorThrown+xhr.status+xhr.responseText);
+            }
+        });
+    },
 };
 
 var missionTemplate;
