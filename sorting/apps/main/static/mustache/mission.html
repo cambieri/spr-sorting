@@ -40,11 +40,11 @@
 						</div>
 						<div class="row" style="margin-bottom: 10px;">
 							<div class="col-xs-2 col-sm-offset-3">
-	                			<input type="checkbox" onclick="if (this.checked) app.currentMission.leftWing=-300; else app.currentMission.leftWing=0; app.currentMission.refreshCircles();">  
+	                			<input type="checkbox" id="btnLeftWing{{missionNum}}" onclick="if (this.checked) app.currentMission.leftWing=-300; else app.currentMission.leftWing=0; app.currentMission.refreshCircles();">  
 	                			SX
 	                			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	                			DX
-	                			<input type="checkbox" onclick="if (this.checked) app.currentMission.rightWing=300; else app.currentMission.rightWing=0; app.currentMission.refreshCircles();">  
+	                			<input type="checkbox" id="btnRightWing{{missionNum}}" onclick="if (this.checked) app.currentMission.rightWing=300; else app.currentMission.rightWing=0; app.currentMission.refreshCircles();">  
 	                		</div>
 						</div>
 						<div class="row">

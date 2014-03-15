@@ -1,7 +1,8 @@
 # coding: utf-8
 
 from django.template import loader
-import sys
+import sys, os.path
+#import json
 from django import http
 from django.template.context import Context, RequestContext
 from django.shortcuts import render, render_to_response
@@ -9,8 +10,6 @@ from forms import UploadForm
 from django.http.response import HttpResponse, Http404
 
 from sorting.settings.common import MEDIA_ROOT
-# import json
-
 from main.ima.ima import Ima
 
 def nondefault_500_error(request, template_name='500nondefault.html'):
@@ -35,10 +34,17 @@ def index(request):
 #     args = {
 #             'icons': json.dumps(icons),
 #             }
-    args = { 'drawSheet': 'Deb_Nest_104956-3-1_0-074_IRONa_lnt02.js', }
-    return show(request, args)
+#     args = {'drawSheet': 'Deb_Nest_104956-3-1_0-074_IRONa_lnt02.js', 'savedMissions': '',}
+#     return show(request, args)
+    return upload(request)
 
 def show(request, args):
+    js_file_name = args['drawSheet']
+    sorting_file_name = js_file_name[:js_file_name.rfind('.')]+'.sor'
+    sorting_file_path = MEDIA_ROOT + '/sorting/' + sorting_file_name
+    if (os.path.isfile(sorting_file_path)):
+        sorting_file = open(sorting_file_path, 'r')
+        args['savedMissions'] = sorting_file.read()
     return render(request, 'index.html', args)
 
 def upload(request):
@@ -58,7 +64,7 @@ def upload(request):
             ima_file_name = f.name
             js_file_name = ima_file_name[:ima_file_name.rfind('.')]+'.js'
             Ima(MEDIA_ROOT + '/ima/' + ima_file_name, MEDIA_ROOT + '/js/' + js_file_name)
-            args = { 'drawSheet': js_file_name, }
+            args = {'drawSheet': js_file_name, 'savedMissions': '',}
             return show(request, args)
     else:
         form = UploadForm() # A empty, unbound form

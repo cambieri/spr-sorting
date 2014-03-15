@@ -14,11 +14,11 @@
 {% block markup %}
 		<div class="container">
 			<header>
-				<div style="float: left; margin-top: 20px;"><button onclick="location.href='/upload'">CARICA</button></div>
 				<img src="{{ STATIC_URL }}img/logo.png"/>
-				<div style="float: right; margin-top: 20px;"><button onclick="app.saveMissions('{{drawSheet}}');">SALVA</button></div>
-				<div class="title">Benvenuti su spr-sorting</div>
-				<hr style="margin-bottom: 0;">
+				<div class="title">Benvenuti su SPR Sorting (by Stima Engineering)</div>
+				<div style="float: left; margin-top: -48px;"><button onclick="location.href='/upload'">CARICA</button></div>
+				<div style="float: right; margin-top: -48px;"><button onclick="app.saveMissions('{{drawSheet}}');">SALVA</button></div>
+				<hr style="clear:both; margin-bottom: 0;">
 			</header>
 			{% csrf_token %}
 			<div class="content">
@@ -26,7 +26,7 @@
 					{% endblock %}
 			</div>
 			<footer>
-				© 2013 [azienda] - TEL. +39 0123 456789 - P.IVA 0123456789 - Via Tal De Tali, 1 - 12345 [città] (prov) - [email]
+				© 2014 Stima Engineering Srl - TEL. +39 (0)374 94861 - CF & PI 00757840194 - Via per Ripalta Arpina, 1 - 26012 Castelleone (CR) - <a href="mailto:info@stimaengineering.it" target="_top">info@stimaengineering.it</a>
 			</footer>
 		</div> <!-- /container -->
 {% endblock %}

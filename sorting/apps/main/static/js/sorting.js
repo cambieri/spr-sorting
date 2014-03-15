@@ -31,25 +31,25 @@ function Mission(paper, missionNum) {
 };		
 Mission.prototype.decOffsetX = function(valore) {
 	this.offsetX = this.offsetX>this.minOffsetX ? this.offsetX-10 : this.minOffsetX;
-	$('#btnDecOffsetX'+this.missionNum).prop('disabled', this.offsetX==this.minOffsetX);
+	$('#btnDecOffsetX'+this.missionNum).prop('disabled', this.offsetX<=this.minOffsetX);
 	$('#btnIncOffsetX'+this.missionNum).prop('disabled', false);
 	this.refreshCircles();
 };
 Mission.prototype.incOffsetX = function(valore) {
 	this.offsetX = this.offsetX<this.maxOffsetX ? this.offsetX+10 : this.maxOffsetX;
-	$('#btnIncOffsetX'+this.missionNum).prop('disabled', this.offsetX==this.maxOffsetX);
+	$('#btnIncOffsetX'+this.missionNum).prop('disabled', this.offsetX>=this.maxOffsetX);
 	$('#btnDecOffsetX'+this.missionNum).prop('disabled', false);
 	this.refreshCircles();
 };
 Mission.prototype.decOffsetY = function(valore) {
 	this.offsetY = this.offsetY>this.minOffsetY ? this.offsetY-10 : this.minOffsetY;
-	$('#btnDecOffsetY'+this.missionNum).prop('disabled', this.offsetY==this.minOffsetY);
+	$('#btnDecOffsetY'+this.missionNum).prop('disabled', this.offsetY<=this.minOffsetY);
 	$('#btnIncOffsetY'+this.missionNum).prop('disabled', false);
 	this.refreshCircles();
 };
 Mission.prototype.incOffsetY = function(valore) {
 	this.offsetY = this.offsetY<this.maxOffsetY ? this.offsetY+10 : this.maxOffsetY;
-	$('#btnIncOffsetY'+this.missionNum).prop('disabled', this.offsetY==this.maxOffsetY);
+	$('#btnIncOffsetY'+this.missionNum).prop('disabled', this.offsetY>=this.maxOffsetY);
 	$('#btnDecOffsetY'+this.missionNum).prop('disabled', false);
 	this.refreshCircles();
 };
@@ -239,6 +239,7 @@ var app = {
 		if (value instanceof Mission) {
 			var sc = new Array();
 			for (var i=0; i<value.suctionCups.length; i++) {
+//				if (value.suctionCups[i].attr('fill')=="#00FF00") sc.push(cmbS[i].index);
 				sc.push({"index":cmbS[i].index, "color":value.suctionCups[i].attr('fill')});
 			}
 			return {"missionNum":value.missionNum+1, "offsetX":value.offsetX, "offsetY":value.offsetY, "leftWing":value.leftWing, "rightWing":value.rightWing, "suctionCups":sc};
@@ -268,9 +269,30 @@ var app = {
 
 var missionTemplate;
 $( document ).ready(function() {
-//	$('body').css('background-color', '#E6E6E6');
 	$.get('/static/mustache/mission.html', function(d){
 		missionTemplate = d;
 		app.setMission(0);
+		if (savedMissions) {
+			var missionsToRecover = JSON.parse(savedMissions.replace(/&quot;/ig, '"'));
+			for (var i = 0; i<missionsToRecover.length; i++) {
+				var missionData = missionsToRecover[i];
+				var mission = app.missions[i];
+				mission.offsetX = missionData.offsetX;
+				$('#btnDecOffsetX'+i).prop('disabled', mission.offsetX<=mission.minOffsetX);
+				$('#btnIncOffsetX'+i).prop('disabled', mission.offsetX>=mission.maxOffsetX);
+				mission.offsetY = missionData.offsetY;
+				$('#btnDecOffsetY'+i).prop('disabled', mission.offsetY<=mission.minOffsetY);
+				$('#btnIncOffsetY'+i).prop('disabled', mission.offsetY>=mission.maxOffsetY);
+				mission.leftWing = missionData.leftWing;
+				$('#btnLeftWing'+i).prop('checked', mission.leftWing!=0);
+				mission.rightWing = missionData.rightWing;
+				$('#btnRightWing'+i).prop('checked', mission.rightWing!=0);
+				mission.refreshCircles();
+				for (var j = 0; j<missionData.suctionCups.length; j++) {
+					mission.suctionCups[j].attr({fill:missionData.suctionCups[j].color});
+				}
+				if (i<missionsToRecover.length-1) mission.acceptMission();
+			}
+		}
 	});
 });

@@ -3,7 +3,7 @@
 
 
 {# This is the page title #}
-{% block title %}{{ block.super }} - SORTING{% endblock %}
+{% block title %}{{ block.super }} - SPR Sorting{% endblock %}
 
 
 {# Content of the page #}
@@ -14,6 +14,7 @@
 
 {% block js %}
 {{ block.super }}
+		<script>var savedMissions = "{{savedMissions}}";</script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/cmbRaphael.js"></script>
 		<script type="text/javascript" src="{{ MEDIA_URL }}js/{{ drawSheet }}"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/sorting.js"></script>
