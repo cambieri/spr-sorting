@@ -11,43 +11,34 @@ class TxMessage(object):
     '''
     Message for PLC
     '''
-    messageBytes = 66
-    indexIc = 0
-    lenIc = EnumLength.word
-    indexFunction = 2
-    lenFunction = EnumLength.word
-    indexSuctionCupGroup1 = 6
-    lenSuctionCupGroup1 = EnumLength.byte
-    indexSuctionCupGroup2 = 7
-    lenSuctionCupGroup2 = EnumLength.byte
-    indexSuctionCupGroup3 = 8
-    lenSuctionCupGroup3 = EnumLength.word
-    indexSuctionCupGroup4 = 10
-    lenSuctionCupGroup4 = EnumLength.word
-    indexSuctionCupGroup5 = 12
-    lenSuctionCupGroup5 = EnumLength.byte
-    indexSuctionCupGroup6 = 13
-    lenSuctionCupGroup6 = EnumLength.byte
-    indexPlateuSxTaking = 22
-    lenPlateuSxTaking = EnumLength.byte
-    indexPlateuDxTaking = 23
-    lenPlateuDxTaking = EnumLength.byte
-    indexXquoteTaking = 26
-    lenXquoteTaking = EnumLength.doubleWord
-    indexYquoteTaking = 30
-    lenYquoteTaking = EnumLength.doubleWord
-    indexPlateuSxLeaving = 42
-    lenPlateuSxLeaving = EnumLength.byte
-    indexPlateuDxLeaving = 43
-    lenPlateuDxLeaving = EnumLength.byte
-    indexXquoteLeaving = 44
-    lenXquoteLeaving = EnumLength.doubleWord
-    indexYquoteLeaving = 48
-    lenYquoteLeaving = EnumLength.doubleWord
-    indexZquoteLeaving = 52
-    lenZquoteLeaving = EnumLength.doubleWord
-    indexIc1 = 64
-    lenIc1 = EnumLength.word
+    protocol = { 'ic': (0, EnumLength.word)
+                ,'function' : (16, EnumLength.word)
+                ,'plateausx' : (192, EnumLength.byte)
+                ,'plateaudx' : (200, EnumLength.byte)
+                ,'x' : (208, EnumLength.doubleWord)
+                ,'y' : (240, EnumLength.doubleWord)
+                ,'z' : (272, EnumLength.doubleWord)
+                ,'a' : (304, EnumLength.doubleWord)
+                ,'plateausx1' : (336, EnumLength.byte)
+                ,'plateaudx1' : (344, EnumLength.byte)
+                ,'x1' : (352, EnumLength.doubleWord)
+                ,'y1' : (384, EnumLength.doubleWord)
+                ,'z1' : (416, EnumLength.doubleWord)
+                ,'a1' : (448, EnumLength.doubleWord)
+                ,'ic1' : (512, EnumLength.word)
+                ,'filler1' : (32, EnumLength.word)
+                ,'filler2' : (112, EnumLength.word)
+                ,'filler3' : (128, EnumLength.word)
+                ,'filler4' : (144, EnumLength.word)
+                ,'filler5' : (160, EnumLength.word)
+                ,'filler6' : (176, EnumLength.word)
+                ,'filler7' : (480, EnumLength.word)
+                ,'filler8' : (496, EnumLength.word)
+                }
+    for i in xrange(1, 9):
+        for j in xrange(1, 9):
+            protocol['sc' + str(j + (i-1) * 8)] = ((56 + (i - 1) * 8) - 1 - (j - 1), EnumLength.bit)
+    messageBits = 528
 
 
     def __init__(self):
@@ -57,7 +48,7 @@ class TxMessage(object):
         self.reset()
     
     def reset(self):
-        self.bits = bitarray(self.messageBytes * 8)
+        self.bits = bitarray(self.messageBits)
         self.bits.setall(False)        
         pass
     
@@ -65,25 +56,43 @@ class TxMessage(object):
         return bin(num)[2:].zfill(length)[-length:]
     
     def setValue(self, name, value):
-        if hasattr(self, 'index' + name) and hasattr(self, 'len' + name):
-            index = getattr(self, 'index' + name)
-            length = getattr(self, 'len' + name)
+        myName = name.lower().strip()
+        if myName in self.protocol:
+            index = self.protocol[myName][0]
+            length = self.protocol[myName][1]
             myBits = bitarray(self.numberToBits(value, length))
-            self.bits[-(index + 1) * 8:length] = myBits
+            self.bits[index: index + length] = myBits
             return EnumResult.ok
         else:
-            return EnumResult.dataUnexpected    
-    
+            return EnumResult.dataUnexpected
+            
 if __name__ == '__main__':           # self test code
     myMessage = TxMessage()
-    """
-    if hasattr(myMessage, 'indexIc'):
-        print "ok"
-    else:
-        print "no"
-    """
-    print (myMessage.setValue("Ic", 32000) == EnumResult.ok)
-    print myMessage.bits
+    ret = EnumResult.ok
+    ret = myMessage.setValue("IC",16) if ret == EnumResult.ok else EnumResult.dataUnexpected
+    ret = myMessage.setValue("IC1",16) if ret == EnumResult.ok else EnumResult.dataUnexpected
+    ret = myMessage.setValue("FUNCTION",201) if ret == EnumResult.ok else EnumResult.dataUnexpected
+    ret = myMessage.setValue("SC6", 1) if ret == EnumResult.ok else EnumResult.dataUnexpected
+    ret = myMessage.setValue("SC7", 1) if ret == EnumResult.ok else EnumResult.dataUnexpected
+    ret = myMessage.setValue("SC11", 1) if ret == EnumResult.ok else EnumResult.dataUnexpected
+    ret = myMessage.setValue("SC24", 1) if ret == EnumResult.ok else EnumResult.dataUnexpected
+    ret = myMessage.setValue("SC26", 1) if ret == EnumResult.ok else EnumResult.dataUnexpected
+    ret = myMessage.setValue("SC30", 1) if ret == EnumResult.ok else EnumResult.dataUnexpected
+    ret = myMessage.setValue("PLATEAUSX", 1) if ret == EnumResult.ok else EnumResult.dataUnexpected
+    ret = myMessage.setValue("X", 80000) if ret == EnumResult.ok else EnumResult.dataUnexpected
+    ret = myMessage.setValue("Y", 30000) if ret == EnumResult.ok else EnumResult.dataUnexpected
+    ret = myMessage.setValue("PLATEAUSX1", 1) if ret == EnumResult.ok else EnumResult.dataUnexpected
+    ret = myMessage.setValue("X1", 110000) if ret == EnumResult.ok else EnumResult.dataUnexpected
+    ret = myMessage.setValue("Y1", 90000) if ret == EnumResult.ok else EnumResult.dataUnexpected
+    print (ret == EnumResult.ok)
+    print myMessage.bits if ret == EnumResult.ok else "error"
+"""
+    if (ret == EnumResult.ok):
+        myStringToSend = myMessage.bits.tobytes();
+        mySock = UdpClient()
+        mySock.createsocket()
+        print mySock.sendmessage(myStringToSend)
+"""
                   
 
         

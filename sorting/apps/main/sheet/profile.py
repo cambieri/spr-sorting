@@ -54,11 +54,12 @@ class Profile(object):
             if mySegment.centerX == None and mySegment.centerY == None:
                 ret += "   L" + str(mySegment.endX) + "," + str(mySegment.endY)
             else:
-                ret += "   A" + str(mySegment.radius) + "," + str(mySegment.radius) + ",0 0,"
+                ret += "   A" + str(mySegment.radius) + "," + str(mySegment.radius) + ",0 1,"
                 ret += ("0" if mySegment.isClockwise else "1")
-                ret += " "+ str(mySegment.endX) + "," + str(mySegment.endY)  
+                ret += " "+ str(mySegment.endX - 0.1) + "," + str(mySegment.endY)  
             lastX = mySegment.endX     
             lastY = mySegment.endY 
         return ret
+
             
         

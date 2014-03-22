@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os, sys
-from sorting.settings.custom import *
+from sorting.settings.custom import *  # @UnusedWildImport
 
 ugettext = lambda s: s
 
@@ -239,3 +239,17 @@ SUCTION_CUPS = (
 	(51, 	1510, 	850, 	40, 	40, 	'right'),
 	(52, 	1740, 	850, 	40, 	40, 	'right'),			
 )
+
+SOCKET_DATA = {
+			 'myip' : ''
+			,'myport' : 2000
+			,'otherip' : '192.168.99.1'
+			,'otherport' : 2000
+			,'bytestx' : 66
+			,'bytesrx' : 16
+			,'dimensionfactor' : 1
+			,'folder' : 'ima'
+			,'file' : 'pos_01.ini'
+}
+
+

@@ -18,10 +18,11 @@ class Ima(object):
     Element IMA
     '''
 
-    def __init__(self, filePathInput = None, filePathOutput = None):
+    def __init__(self, filePathInput = None, filePathOutput = None, isDebug = False):
         '''
         Constructor
         '''
+        self.isDebug = isDebug
         self._map = {"Program" : "programName",
                      "Mat" : "material",
                      "Thk" : "thickness",
@@ -170,7 +171,7 @@ class Ima(object):
     def ima2cmb(self):
         ret = None
         if self.isFile and len(self.parts) > 0 and len(self.calls) > 0:
-            ret = sheet.Sheet(self.programName, self.dimX, self.dimY, self.thickness)
+            ret = sheet.Sheet(self.programName, self.dimX, self.dimY, self.thickness, self.isDebug)
             for myPart in self.parts:
                 myIcon = Icon(myPart.name, 
                               myPart.dimX, 
@@ -244,7 +245,7 @@ class Ima(object):
     dimY = property(get_dim_y, set_dim_y, None, None)
 
 if __name__ == '__main__':           # self test code
-    myIma = Ima("/home/val3xiv/workspace-django/projects/spr-sorting/ima-emf/Deb_Nest_104956-3-1_0-074_IRONa_lnt02.ima", "Deb_Nest_104956-3-1_0-074_IRONa_lnt02.js")
+    myIma = Ima("/home/val3xiv/workspace-django/spr-sorting/sorting/media/ima-emf/valter.ima", "valter.js", True)
     #myPart = myIma.parts[0].transform()
     myCmbSheet = myIma.ima2cmb()
     print myCmbSheet.toRaphael()

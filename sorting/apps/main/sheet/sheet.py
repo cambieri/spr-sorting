@@ -12,7 +12,7 @@ class Sheet(object):
     '''
 
 
-    def __init__(self, code = "", dimX = 0.0, dimY = 0.0, dimZ = 0.0):
+    def __init__(self, code = "", dimX = 0.0, dimY = 0.0, dimZ = 0.0, isDebug = False):
         '''
         Constructor
         '''
@@ -20,6 +20,7 @@ class Sheet(object):
         self.dimX = dimX
         self.dimY = dimY
         self.dimZ = dimZ
+        self.isDebug = isDebug
         self.icons = []
         self.positions = []
 
@@ -72,28 +73,29 @@ class Sheet(object):
     
     def _jsFunction(self, functionName = None):
         ret = ""
-#         ret += "var windowWidth = $('#cmbR').width() * 0.95; \n"
-#         ret += "var windowHeight = $('#cmbR').height() * 0.95; \n"
-#         ret += 'var xRatio = windowWidth / ' + str(self.dimX) + '; \n'
-#         ret += 'var yRatio = windowHeight / ' + str(self.dimY) + '; \n'
-#         ret += 'var ratio = (xRatio < yRatio) ? xRatio : yRatio; \n\n'
-#         ret += "var cmbR = Raphael('cmbR', " + str(self.dimX) + " * ratio, " + str(self.dimY) + " * ratio); \n"        
-#         ret += "cmbR.setViewBox(0,0,"+ str(self.dimX) + "," + str(self.dimY) + "); \n"
-#         ret += "cmbI = cmbR.set(); \n"
-#         ret += "cmbNotunload = cmbR.set(); \n"
-#         ret += "cmbPicked = cmbR.set(); \n"
-#         ret += "var r000 = cmbR.rect(0,0," + str(self.dimX) + "," + str(self.dimY) + "); \n"
-#         ret += 'r000.id = "r000"; \n' 
-#         ret += "$(r000.node).attr('class', 'sheet'); \n" 
-#         ret += "$(r000.node).attr('id', 'r000'); \n" 
-#         ret += "r000.attr({"
-#         ret += "'x': '" + "0" + "'"
-#         ret += ", 'y': '" + "0" + "'"
-#         ret += ", 'fill': '" + Enum.Colors.sheet + "'"
-#         ret += ", 'stroke': '" + "#000" + "'"
-#         ret += ", 'stroke-width': '" + "0" + "'"
-#         ret += ", 'stroke-opacity': '" + "1" + "'"
-#         ret += "}); \n\n"
+        if (self.isDebug):
+            ret += "var windowWidth = $('#cmbR').width() * 0.95; \n"
+            ret += "var windowHeight = $('#cmbR').height() * 0.95; \n"
+            ret += 'var xRatio = windowWidth / ' + str(self.dimX) + '; \n'
+            ret += 'var yRatio = windowHeight / ' + str(self.dimY) + '; \n'
+            ret += 'var ratio = (xRatio < yRatio) ? xRatio : yRatio; \n\n'
+            ret += "var cmbR = Raphael('cmbR', " + str(self.dimX) + " * ratio, " + str(self.dimY) + " * ratio); \n"        
+            ret += "cmbR.setViewBox(0,0,"+ str(self.dimX) + "," + str(self.dimY) + "); \n"
+            ret += "cmbI = cmbR.set(); \n"
+            ret += "cmbNotunload = cmbR.set(); \n"
+            ret += "cmbPicked = cmbR.set(); \n"
+            ret += "var r000 = cmbR.rect(0,0," + str(self.dimX) + "," + str(self.dimY) + "); \n"
+            ret += 'r000.id = "r000"; \n' 
+            ret += "$(r000.node).attr('class', 'sheet'); \n" 
+            ret += "$(r000.node).attr('id', 'r000'); \n" 
+            ret += "r000.attr({"
+            ret += "'x': '" + "0" + "'"
+            ret += ", 'y': '" + "0" + "'"
+            ret += ", 'fill': '" + Enum.Colors.sheet + "'"
+            ret += ", 'stroke': '" + "#000" + "'"
+            ret += ", 'stroke-width': '" + "0" + "'"
+            ret += ", 'stroke-opacity': '" + "1" + "'"
+            ret += "}); \n\n"
         ret += "var cmbS = new Array(); \n"
         for mySuctionCup in SUCTION_CUPS:
             myScArray = '{"index":' + str(mySuctionCup[0])
