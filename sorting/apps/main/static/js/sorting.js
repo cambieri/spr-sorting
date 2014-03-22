@@ -30,27 +30,19 @@ function Mission(paper, missionNum) {
 	this.rightWing = 0;
 };		
 Mission.prototype.decOffsetX = function() {
-	this.offsetX = this.offsetX>this.minOffsetX ? this.offsetX-10 : this.minOffsetX;
-	$('#btnDecOffsetX'+this.missionNum).prop('disabled', this.offsetX<=this.minOffsetX);
-	$('#btnIncOffsetX'+this.missionNum).prop('disabled', false);
+	this.offsetX = this.offsetX>this.minOffsetX ? this.offsetX-incX : this.minOffsetX;
 	this.refreshCircles();
 };
 Mission.prototype.incOffsetX = function() {
-	this.offsetX = this.offsetX<this.maxOffsetX ? this.offsetX+10 : this.maxOffsetX;
-	$('#btnIncOffsetX'+this.missionNum).prop('disabled', this.offsetX>=this.maxOffsetX);
-	$('#btnDecOffsetX'+this.missionNum).prop('disabled', false);
+	this.offsetX = this.offsetX<this.maxOffsetX ? this.offsetX+incX : this.maxOffsetX;
 	this.refreshCircles();
 };
 Mission.prototype.decOffsetY = function() {
-	this.offsetY = this.offsetY>this.minOffsetY ? this.offsetY-10 : this.minOffsetY;
-	$('#btnDecOffsetY'+this.missionNum).prop('disabled', this.offsetY<=this.minOffsetY);
-	$('#btnIncOffsetY'+this.missionNum).prop('disabled', false);
+	this.offsetY = this.offsetY>this.minOffsetY ? this.offsetY-incY : this.minOffsetY;
 	this.refreshCircles();
 };
 Mission.prototype.incOffsetY = function() {
-	this.offsetY = this.offsetY<this.maxOffsetY ? this.offsetY+10 : this.maxOffsetY;
-	$('#btnIncOffsetY'+this.missionNum).prop('disabled', this.offsetY>=this.maxOffsetY);
-	$('#btnDecOffsetY'+this.missionNum).prop('disabled', false);
+	this.offsetY = this.offsetY<this.maxOffsetY ? this.offsetY+incY : this.maxOffsetY;
 	this.refreshCircles();
 };
 Mission.prototype.drawSuctionCup = function(posX, posY, radiusX, radiusY) {
@@ -74,13 +66,22 @@ Mission.prototype.drawSuctionCup = function(posX, posY, radiusX, radiusY) {
 Mission.prototype.drawSuctionCups = function() {
 	this.suctionCups.length = 0;
 	var posxFirstCup = cmbS[0].x + this.leftWing + this.offsetX;
-	var offsetCorrectionX = posxFirstCup<baseOffsetX ? -posxFirstCup + baseOffsetX : 0;
+	var offsetCorrectionX = posxFirstCup < baseOffsetX ? -posxFirstCup + baseOffsetX : 0;
+	this.offsetX += offsetCorrectionX;
 	for (var i=0; i<cmbS.length; i++) {
 		var item = cmbS[i];
-		var offset = item.position=='left' ? this.leftWing : this.rightWing;
-		offset += offsetCorrectionX;
-		this.drawSuctionCup(item.x + offset, app.canvasHeight - item.y, item.dimX, item.dimY);
+		var itemOffsetX = (item.position=='left' ? this.leftWing : this.rightWing);
+		this.drawSuctionCup(item.x + itemOffsetX, app.canvasHeight - item.y, item.dimX, item.dimY);
 	}
+	this.minOffsetX = this.leftWing != 0 ? -this.leftWing + baseOffsetX : baseOffsetX;
+	if (this.offsetX<=this.minOffsetX) { clearInterval(i1); $('#btnDecOffsetX'+this.missionNum).prop('disabled', true); } else { $('#btnDecOffsetX'+this.missionNum).prop('disabled', false); }
+	if (this.offsetX>=this.maxOffsetX) { clearInterval(i2); $('#btnIncOffsetX'+this.missionNum).prop('disabled', true); } else { $('#btnIncOffsetX'+this.missionNum).prop('disabled', false); }
+	if (this.offsetY<=this.minOffsetY) { clearInterval(i3); $('#btnDecOffsetY'+this.missionNum).prop('disabled', true); } else { $('#btnDecOffsetY'+this.missionNum).prop('disabled', false); }
+	if (this.offsetY>=this.maxOffsetY) { clearInterval(i4); $('#btnIncOffsetY'+this.missionNum).prop('disabled', true); } else { $('#btnIncOffsetY'+this.missionNum).prop('disabled', false); }
+//	$('#btnDecOffsetX'+this.missionNum).prop('disabled', this.offsetX<=this.minOffsetX);
+//	$('#btnIncOffsetX'+this.missionNum).prop('disabled', this.offsetX>=this.maxOffsetX);
+//	$('#btnDecOffsetY'+this.missionNum).prop('disabled', this.offsetY<=this.minOffsetY);
+//	$('#btnIncOffsetY'+this.missionNum).prop('disabled', this.offsetY>=this.maxOffsetY);
 };
 Mission.prototype.drawIcons = function() {
 	this.icons.clear();
@@ -273,6 +274,7 @@ var app = {
     },
 };
 
+var i1, i2, i3, i4;
 var missionTemplate;
 $( document ).ready(function() {
 	$.get('/static/mustache/mission.html', function(d){

@@ -188,6 +188,9 @@ X_FRAME_OPTIONS = 'DENY'
 BASE_OFFSET_X = 50
 BASE_OFFSET_Y = 50
 
+INC_X = 10
+INC_Y = 10
+
 SUCTION_CUPS = (
 	(1,		0,		0, 		40, 	40, 	'left'),
 	(2, 	230, 	0, 		40, 	40, 	'left'),
