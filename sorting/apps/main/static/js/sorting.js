@@ -16,12 +16,12 @@ function Mission(paper, missionNum) {
 	this.paper = paper;
 	this.missionNum = missionNum;
 	
-	this.minOffsetX = 0;
-	this.minOffsetY = 0;
-	this.maxOffsetX = 400;
-	this.maxOffsetY = 300;
-	this.offsetX = 20;
-	this.offsetY = 15;
+	this.minOffsetX = baseOffsetX;
+	this.minOffsetY = baseOffsetY;
+	this.maxOffsetX = app.canvasWidth - baseOffsetX;
+	this.maxOffsetY = app.canvasHeight - baseOffsetY;
+	this.offsetX = baseOffsetX;
+	this.offsetY = baseOffsetY;
 	
 	this.icons = cmbI;
 	this.suctionCups = new Array();
@@ -29,25 +29,25 @@ function Mission(paper, missionNum) {
 	this.leftWing = 0;
 	this.rightWing = 0;
 };		
-Mission.prototype.decOffsetX = function(valore) {
+Mission.prototype.decOffsetX = function() {
 	this.offsetX = this.offsetX>this.minOffsetX ? this.offsetX-10 : this.minOffsetX;
 	$('#btnDecOffsetX'+this.missionNum).prop('disabled', this.offsetX<=this.minOffsetX);
 	$('#btnIncOffsetX'+this.missionNum).prop('disabled', false);
 	this.refreshCircles();
 };
-Mission.prototype.incOffsetX = function(valore) {
+Mission.prototype.incOffsetX = function() {
 	this.offsetX = this.offsetX<this.maxOffsetX ? this.offsetX+10 : this.maxOffsetX;
 	$('#btnIncOffsetX'+this.missionNum).prop('disabled', this.offsetX>=this.maxOffsetX);
 	$('#btnDecOffsetX'+this.missionNum).prop('disabled', false);
 	this.refreshCircles();
 };
-Mission.prototype.decOffsetY = function(valore) {
+Mission.prototype.decOffsetY = function() {
 	this.offsetY = this.offsetY>this.minOffsetY ? this.offsetY-10 : this.minOffsetY;
 	$('#btnDecOffsetY'+this.missionNum).prop('disabled', this.offsetY<=this.minOffsetY);
 	$('#btnIncOffsetY'+this.missionNum).prop('disabled', false);
 	this.refreshCircles();
 };
-Mission.prototype.incOffsetY = function(valore) {
+Mission.prototype.incOffsetY = function() {
 	this.offsetY = this.offsetY<this.maxOffsetY ? this.offsetY+10 : this.maxOffsetY;
 	$('#btnIncOffsetY'+this.missionNum).prop('disabled', this.offsetY>=this.maxOffsetY);
 	$('#btnDecOffsetY'+this.missionNum).prop('disabled', false);
@@ -55,7 +55,7 @@ Mission.prototype.incOffsetY = function(valore) {
 };
 Mission.prototype.drawSuctionCup = function(posX, posY, radiusX, radiusY) {
 	var x = posX + this.offsetX;
-	var y = posY + this.offsetY;
+	var y = posY - this.offsetY;
 	var suctionCup = this.paper.ellipse(x, y, radiusX, radiusY);
 	suctionCup.attr("fill", "#909090");
 	suctionCup.attr("stroke", "#FFFFFF");
@@ -73,10 +73,13 @@ Mission.prototype.drawSuctionCup = function(posX, posY, radiusX, radiusY) {
 };
 Mission.prototype.drawSuctionCups = function() {
 	this.suctionCups.length = 0;
+	var posxFirstCup = cmbS[0].x + this.leftWing + this.offsetX;
+	var offsetCorrectionX = posxFirstCup<baseOffsetX ? -posxFirstCup + baseOffsetX : 0;
 	for (var i=0; i<cmbS.length; i++) {
 		var item = cmbS[i];
 		var offset = item.position=='left' ? this.leftWing : this.rightWing;
-		this.drawSuctionCup(item.x + offset, item.y, item.dimX, item.dimY);
+		offset += offsetCorrectionX;
+		this.drawSuctionCup(item.x + offset, app.canvasHeight - item.y, item.dimX, item.dimY);
 	}
 };
 Mission.prototype.drawIcons = function() {
@@ -163,6 +166,8 @@ Mission.prototype.refresh = function() {
 //CLASSE Mission END
 
 var app = {
+	canvasWidth: 3048.0,
+	canvasHeight: 1524.0,
 	missions: new Array(),
 	currentMission: null,
 	setMission: function(missionNum) {
@@ -177,16 +182,16 @@ var app = {
 			
 			var windowWidth = $('#cmbR'+missionNum).width() * 0.95; 
 			var windowHeight = $('#cmbR'+missionNum).height() * 0.95; 
-			var xRatio = windowWidth / 3048.0; 
-			var yRatio = windowHeight / 1524.0; 
+			var xRatio = windowWidth / app.canvasWidth; 
+			var yRatio = windowHeight / app.canvasHeight; 
 			var ratio = (xRatio < yRatio) ? xRatio : yRatio; 
 
-			cmbR = Raphael('cmbR'+missionNum, 3048.0 * ratio, 1524.0 * ratio); 
-			cmbR.setViewBox(0,0,3048.0,1524.0); 
+			cmbR = Raphael('cmbR'+missionNum, app.canvasWidth * ratio, app.canvasHeight * ratio);
+			cmbR.setViewBox(0, 0, app.canvasWidth, app.canvasHeight); 
 			cmbI = cmbR.set(); 
 			cmbNotunload = cmbR.set(); 
 			cmbPicked = cmbR.set(); 
-			var r000 = cmbR.rect(0,0,3048.0,1524.0); 
+			var r000 = cmbR.rect(0, 0, app.canvasWidth, app.canvasHeight); 
 			r000.id = "r000"; 
 			$(r000.node).attr('class', 'sheet'); 
 			$(r000.node).attr('id', 'r000'); 
@@ -240,7 +245,8 @@ var app = {
 			var sc = new Array();
 			for (var i=0; i<value.suctionCups.length; i++) {
 //				if (value.suctionCups[i].attr('fill')=="#00FF00") sc.push(cmbS[i].index);
-				sc.push({"index":cmbS[i].index, "color":value.suctionCups[i].attr('fill')});
+				var on = value.suctionCups[i].attr('fill')=="#00FF00" ? 1 : 0;
+				sc.push({"index":cmbS[i].index, "color":value.suctionCups[i].attr('fill'), 'on':on});
 			}
 			return {"missionNum":value.missionNum+1, "offsetX":value.offsetX, "offsetY":value.offsetY, "leftWing":value.leftWing, "rightWing":value.rightWing, "suctionCups":sc};
 		} else {

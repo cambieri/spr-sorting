@@ -10,6 +10,8 @@ from forms import UploadForm
 from django.http.response import HttpResponse, Http404
 
 from sorting.settings.common import MEDIA_ROOT
+from sorting.settings.common import BASE_OFFSET_X
+from sorting.settings.common import BASE_OFFSET_Y
 from main.ima.ima import Ima
 
 def nondefault_500_error(request, template_name='500nondefault.html'):
@@ -45,6 +47,8 @@ def show(request, args):
     if (os.path.isfile(sorting_file_path)):
         sorting_file = open(sorting_file_path, 'r')
         args['savedMissions'] = sorting_file.read()
+    args['baseOffsetX'] = BASE_OFFSET_X
+    args['baseOffsetY'] = BASE_OFFSET_Y
     return render(request, 'index.html', args)
 
 def upload(request):

@@ -185,6 +185,9 @@ LOGGING = {
 # cickhacking protection
 X_FRAME_OPTIONS = 'DENY'
 
+BASE_OFFSET_X = 50
+BASE_OFFSET_Y = 50
+
 SUCTION_CUPS = (
 	(1,		0,		0, 		40, 	40, 	'left'),
 	(2, 	230, 	0, 		40, 	40, 	'left'),
