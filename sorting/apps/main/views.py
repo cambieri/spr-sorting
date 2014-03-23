@@ -9,11 +9,7 @@ from django.shortcuts import render, render_to_response
 from forms import UploadForm
 from django.http.response import HttpResponse, Http404
 
-from sorting.settings.common import MEDIA_ROOT
-from sorting.settings.common import BASE_OFFSET_X
-from sorting.settings.common import BASE_OFFSET_Y
-from sorting.settings.common import INC_X
-from sorting.settings.common import INC_Y
+from sorting.settings.common import MEDIA_ROOT, BASE_OFFSET_X, BASE_OFFSET_Y, INC_X, INC_Y, INC_REPEAT_DELAY, LEFT_WING_OFFSET, RIGHT_WING_OFFSET
 from main.ima.ima import Ima
 
 def nondefault_500_error(request, template_name='500nondefault.html'):
@@ -53,6 +49,9 @@ def show(request, args):
     args['baseOffsetY'] = BASE_OFFSET_Y
     args['incX'] = INC_X
     args['incY'] = INC_Y
+    args['incRepeatDelay'] = INC_REPEAT_DELAY
+    args['leftWingOffset'] = LEFT_WING_OFFSET
+    args['rightWingOffset'] = RIGHT_WING_OFFSET
     return render(request, 'index.html', args)
 
 def upload(request):

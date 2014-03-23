@@ -178,7 +178,7 @@ var app = {
 		if (missionNum === this.missions.length) {
 			if (app.currentMission) { $('#btnRivedi'+app.currentMission.missionNum).enable(); }
 			
-			var missionDiv = Mustache.render(missionTemplate, {missionNum: missionNum});
+			var missionDiv = Mustache.render(missionTemplate, {missionNum: missionNum, incRepeatDelay: incRepeatDelay, leftWingOffset: leftWingOffset, rightWingOffset: rightWingOffset});
 			$('.content').append(missionDiv);
 			
 			var windowWidth = $('#cmbR'+missionNum).width() * 0.95; 

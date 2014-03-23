@@ -12,12 +12,12 @@
 						</div>
 						<div class="row">
 							<div class="col-xs-2 col-sm-offset-3">
-								<button type="button" class="btn btn-default btn-lg" id="btnDecOffsetX{{missionNum}}" onclick="callDecOffsetX();" onmousedown="i1=setInterval(callDecOffsetX, 100);" onmouseup="clearInterval(i1);">
+								<button type="button" class="btn btn-default btn-lg" id="btnDecOffsetX{{missionNum}}" onclick="callDecOffsetX();" onmousedown="i1=setInterval(callDecOffsetX, {{incRepeatDelay}});" onmouseup="clearInterval(i1);">
 									<script>function callDecOffsetX() { clearInterval(i2); app.currentMission.decOffsetX(); }</script>
 									<span class="glyphicon glyphicon-chevron-left"></span>
 								</button>
 								X
-								<button type="button" class="btn btn-default btn-lg" id="btnIncOffsetX{{missionNum}}" onclick="callIncOffsetX();" onmousedown="i2=setInterval(callIncOffsetX, 100);" onmouseup="clearInterval(i2);">
+								<button type="button" class="btn btn-default btn-lg" id="btnIncOffsetX{{missionNum}}" onclick="callIncOffsetX();" onmousedown="i2=setInterval(callIncOffsetX, {{incRepeatDelay}});" onmouseup="clearInterval(i2);">
 									<script>function callIncOffsetX() { clearInterval(i1); app.currentMission.incOffsetX(); }</script>
 									<span class="glyphicon glyphicon-chevron-right"></span>
 								</button>
@@ -31,12 +31,12 @@
 								</button>
 							</div>
 							<div class="col-xs-2 text-right">
-								<button type="button" class="btn btn-default btn-lg" id="btnDecOffsetY{{missionNum}}" onclick="callDecOffsetY();" onmousedown="i3=setInterval(callDecOffsetY, 100);" onmouseup="clearInterval(i3);">
+								<button type="button" class="btn btn-default btn-lg" id="btnDecOffsetY{{missionNum}}" onclick="callDecOffsetY();" onmousedown="i3=setInterval(callDecOffsetY, {{incRepeatDelay}});" onmouseup="clearInterval(i3);">
 									<script>function callDecOffsetY() { clearInterval(i4); app.currentMission.decOffsetY(); }</script>
 									<span class="glyphicon glyphicon-chevron-down"></span>
 								</button>
 								Y
-								<button type="button" class="btn btn-default btn-lg" id="btnIncOffsetY{{missionNum}}" onclick="callIncOffsetY();" onmousedown="i4=setInterval(callIncOffsetY, 100);" onmouseup="clearInterval(i4);">
+								<button type="button" class="btn btn-default btn-lg" id="btnIncOffsetY{{missionNum}}" onclick="callIncOffsetY();" onmousedown="i4=setInterval(callIncOffsetY, {{incRepeatDelay}});" onmouseup="clearInterval(i4);">
 									<script>function callIncOffsetY() { clearInterval(i3); app.currentMission.incOffsetY(); }</script>
 									<span class="glyphicon glyphicon-chevron-up"></span>
 								</button>
@@ -44,11 +44,11 @@
 						</div>
 						<div class="row" style="margin-bottom: 10px;">
 							<div class="col-xs-2 col-sm-offset-3">
-	                			<input type="checkbox" id="btnLeftWing{{missionNum}}" onclick="if (this.checked) app.currentMission.leftWing=-300; else app.currentMission.leftWing=0; app.currentMission.refreshCircles();">  
+	                			<input type="checkbox" id="btnLeftWing{{missionNum}}" onclick="if (this.checked) app.currentMission.leftWing={{leftWingOffset}}; else app.currentMission.leftWing=0; app.currentMission.refreshCircles();">  
 	                			SX
 	                			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	                			DX
-	                			<input type="checkbox" id="btnRightWing{{missionNum}}" onclick="if (this.checked) app.currentMission.rightWing=300; else app.currentMission.rightWing=0; app.currentMission.refreshCircles();">  
+	                			<input type="checkbox" id="btnRightWing{{missionNum}}" onclick="if (this.checked) app.currentMission.rightWing={{rightWingOffset}}; else app.currentMission.rightWing=0; app.currentMission.refreshCircles();">  
 	                		</div>
 						</div>
 						<div class="row">

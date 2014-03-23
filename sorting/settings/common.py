@@ -190,6 +190,10 @@ BASE_OFFSET_Y = 50
 
 INC_X = 10
 INC_Y = 10
+INC_REPEAT_DELAY = 50 # millisecondi (più basso = più veloce)
+
+LEFT_WING_OFFSET = -300
+RIGHT_WING_OFFSET = 300
 
 SUCTION_CUPS = (
 	(1,		0,		0, 		40, 	40, 	'left'),
