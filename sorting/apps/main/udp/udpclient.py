@@ -86,13 +86,26 @@ class UdpClient(object):
         myMessage = TxMessage()
         ret = EnumResult.ok
         ret = myMessage.setValue("FUNCTION", 200) if ret == EnumResult.ok else EnumResult.dataUnexpected
+        self.ic = self.ic + 1 if self.ic < 32000 else 1
+        ret = myMessage.setValue("IC", self.ic) if ret == EnumResult.ok else EnumResult.dataUnexpected
+        ret = myMessage.setValue("IC1", self.ic) if ret == EnumResult.ok else EnumResult.dataUnexpected
+        if (ret == EnumResult.ok):
+            myStringToSend = myMessage.bits.tobytes();
+            self.createsocket()
+            myBytesSent = self.sendmessage(myStringToSend)
+            if myBytesSent != None:
+                print "\n[UDP Client] " + str(myBytesSent) + " byte(s) sent" 
+                print list(bytearray(myStringToSend))                
+            else:
+                print "\n[UDP Client] ERROR"
         return ret
     
-    def sortingmission(self, mission):
+    def sortingcommand(self, mission, isAskingState = False):
         myMessage = TxMessage()
         ret = EnumResult.ok
         if mission == None:
-            ret = myMessage.setValue("FUNCTION", 202) if ret == EnumResult.ok else EnumResult.dataUnexpected
+            myFunction = 202 if not isAskingState else 200
+            ret = myMessage.setValue("FUNCTION", myFunction) if ret == EnumResult.ok else EnumResult.dataUnexpected
         else:
             ret = myMessage.setValue("FUNCTION", 201) if ret == EnumResult.ok else EnumResult.dataUnexpected
             xLeaving = mission.get("offsetX")
@@ -133,12 +146,15 @@ class UdpClient(object):
                                                                                                  
 if __name__ == '__main__':           # self test code
     mysock = UdpClient()
+    #mysock.sortingstate()
+    mysock.sortingcommand(None, True)
     mysock.readfile()
     isFirst = True
     if not mysock.restart:        
         myMissions = mysock.readsorting()
         isLock = True
         for myMission in myMissions:
+            #isLock = False  #---VC DEBUG
             while isLock:
                 if isFirst:
                     myIcr = mysock.ic
@@ -146,7 +162,7 @@ if __name__ == '__main__':           # self test code
                     myIcr = mysock.udpserver.lastmessage.getValue('icr') if mysock.udpserver != None else None
                 myValue = mysock.udpserver.lastmessage.getValue('sortingwaiting') if mysock.udpserver != None else None
                 isLock = (myValue != 1 or myIcr != mysock.ic) 
-            mysock.sortingmission(myMission)
+            mysock.sortingcommand(myMission)
             isFirst = False
             isLock = True
     while isLock:
@@ -156,6 +172,6 @@ if __name__ == '__main__':           # self test code
             myIcr = mysock.udpserver.lastmessage.getValue('icr') if mysock.udpserver != None else None
         myValue = mysock.udpserver.lastmessage.getValue('sortingwaiting') if mysock.udpserver != None else None
         isLock = (myValue != 1 or myIcr != mysock.ic) 
-    mysock.sortingmission(None)
+    mysock.sortingcommand(None)
         
         

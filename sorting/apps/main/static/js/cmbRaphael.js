@@ -1,10 +1,10 @@
 function pathArrayToString(pathArray)
 {
 	var length1 = pathArray.length,
-		length2 = 0
+		length2 = 0,
 		element1 = null,
 		element2 = null,
-		segType = null
+		segType = null,
 		ret = "";
 	for (var i = 0; i < length1; i++) {
 		element1 = pathArray[i];

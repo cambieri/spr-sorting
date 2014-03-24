@@ -96,6 +96,8 @@ class Sheet(object):
             ret += ", 'stroke-width': '" + "0" + "'"
             ret += ", 'stroke-opacity': '" + "1" + "'"
             ret += "}); \n\n"
+        ret += 'var sheetWidth = ' + str(self.dimX) + '; \n'
+        ret += 'var sheetHeight = ' + str(self.dimY) + '; \n'
         ret += "var cmbS = new Array(); \n"
         for mySuctionCup in SUCTION_CUPS:
             myScArray = '{"index":' + str(mySuctionCup[0])

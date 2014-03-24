@@ -167,8 +167,12 @@ Mission.prototype.refresh = function() {
 //CLASSE Mission END
 
 var app = {
+	/*
 	canvasWidth: 3048.0,
 	canvasHeight: 1524.0,
+	*/
+	canvasWidth: sheetWidth,
+	canvasHeight: sheetHeight,
 	missions: new Array(),
 	currentMission: null,
 	setMission: function(missionNum) {
@@ -188,16 +192,18 @@ var app = {
 			var ratio = (xRatio < yRatio) ? xRatio : yRatio; 
 
 			cmbR = Raphael('cmbR'+missionNum, app.canvasWidth * ratio, app.canvasHeight * ratio);
-			cmbR.setViewBox(0, 0, app.canvasWidth, app.canvasHeight); 
+			cmbR.setViewBox(0, 0, app.canvasWidth, app.canvasHeight);
+			cmbR.canvas.style.backgroundColor = '#F7FE2E';
 			cmbI = cmbR.set(); 
 			cmbNotunload = cmbR.set(); 
 			cmbPicked = cmbR.set(); 
+			/*
 			var r000 = cmbR.rect(0, 0, app.canvasWidth, app.canvasHeight); 
 			r000.id = "r000"; 
 			$(r000.node).attr('class', 'sheet'); 
 			$(r000.node).attr('id', 'r000'); 
 			r000.attr({'x': '0', 'y': '0', 'fill': '#F7FE2E', 'stroke': '#000', 'stroke-width': '0', 'stroke-opacity': '1'});
-			
+			*/
 			var m = new Mission(cmbR, missionNum);
 			app.missions.push(m);
 			app.currentMission = m;
