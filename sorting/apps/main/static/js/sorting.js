@@ -70,7 +70,7 @@ Mission.prototype.drawSuctionCups = function() {
 	this.offsetX += offsetCorrectionX;
 	for (var i=0; i<cmbS.length; i++) {
 		var item = cmbS[i];
-		var itemOffsetX = (item.position=='left' ? this.leftWing : this.rightWing);
+		var itemOffsetX = (item.position=='left' ? this.leftWing : (item.position=='right' ? this.rightWing: 0));
 		this.drawSuctionCup(item.x + itemOffsetX, app.canvasHeight - item.y, item.dimX, item.dimY);
 	}
 	this.minOffsetX = this.leftWing != 0 ? -this.leftWing + baseOffsetX : baseOffsetX;
@@ -86,13 +86,30 @@ Mission.prototype.drawSuctionCups = function() {
 Mission.prototype.drawIcons = function() {
 	this.icons.clear();
 	drawSheet();
+	// imposto gestore click su icona
+	this.icons.forEach(function(icon){
+		icon[0][0].onclick=function(){
+			var thisMissionId = this.parentNode.parentNode.parentNode.parentNode.id;
+			var currentMissionId = 'mission' + app.currentMission.missionNum;
+			if (thisMissionId === currentMissionId) {
+				for (var j=0; j<app.currentMission.suctionCups.length; j++) {
+					var sc = app.currentMission.suctionCups[j];
+					if (icon.isPointInside(sc.attr('cx'),sc.attr('cy'))) {
+						if (sc.attr("fill") == "#909090") sc.animate({fill:"#00FF00"},200);
+						else if (sc.attr("fill") == "#00FF00") sc.animate({fill:"#909090"},200);
+					}
+				}
+			}
+		}
+	});
 	// metto in grigio chiaro le picked in precedenti missioni
 	for (var i=0; i<this.icons.length; i++) {
-		this.icons[i][0].data("picked", 0);
+		var icon = this.icons[i];
+		icon.forEach(function(p){p.data("picked", 0);});
 		for (var j=0; j<app.missions.length; j++) {
-			if (app.missions[j].picked.indexOf(this.icons[i]["id"])>-1) { // se picked
-				this.icons[i][0].animate({fill:"#AAAAAA"},200);
-				this.icons[i][0].data("picked", 1);
+			if (app.missions[j].picked.indexOf(icon["id"])>-1) { // se picked
+				icon[0].animate({fill:"#AAAAAA"},200);
+				icon.forEach(function(p){p.data("picked", 1);});
 			}
 		}
 	}
@@ -100,9 +117,10 @@ Mission.prototype.drawIcons = function() {
 Mission.prototype.unpickAll = function() {
 	// metto in grigio chiaro le picked
 	for (var i=0; i<this.icons.length; i++) {
-		if (this.picked.indexOf(this.icons[i]["id"])>-1) { // se picked
-			this.icons[i][0].animate({fill:"#585858"},200);
-			this.icons[i][0].data("picked", 0);
+		var icon = this.icons[i];
+		if (this.picked.indexOf(icon["id"])>-1) { // se picked
+			icon[0].animate({fill:"#585858"},200);
+			icon.forEach(function(p){p.data("picked", 0);});
 		}
 	}
 	this.picked.length = 0; // pulisce array
@@ -157,12 +175,12 @@ Mission.prototype.refreshCircles = function() {
 	this.suctionCups.length = 0;
 	this.drawSuctionCups();
 };
-Mission.prototype.refresh = function() {
+Mission.prototype.refresh = function(skipCheckIntersection) {
 	this.picked.length = 0;
 	this.paper.clear();
 	this.drawIcons();
 	this.drawSuctionCups();
-	this.checkIntersection();
+	if (!skipCheckIntersection) this.checkIntersection();
 };
 //CLASSE Mission END
 
@@ -207,7 +225,7 @@ var app = {
 			var m = new Mission(cmbR, missionNum);
 			app.missions.push(m);
 			app.currentMission = m;
-			app.currentMission.refresh();
+			app.currentMission.refresh(true);
 		} else {
 			// tornare a missione già creata
 			$('#btnRivedi'+app.currentMission.missionNum).enable();
@@ -218,7 +236,7 @@ var app = {
 			cmbR = app.currentMission.paper;
 			cmbI = app.currentMission.icons;
 //			app.currentMission.unpickAll();
-			app.currentMission.refresh();
+			app.currentMission.refresh(true);
 		}
 	},
 	deleteMission: function(missionNum) {

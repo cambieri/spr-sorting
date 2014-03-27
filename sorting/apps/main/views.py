@@ -71,7 +71,7 @@ def upload(request):
             ima_file_name = f.name
             js_file_name = ima_file_name[:ima_file_name.rfind('.')]+'.js'
             Ima(MEDIA_ROOT + '/ima/' + ima_file_name, MEDIA_ROOT + '/js/' + js_file_name)
-            args = {'drawSheet': js_file_name, 'savedMissions': '',}
+            args = {'drawSheet': js_file_name, 'savedMissions': '', 'imaFileName': js_file_name[:js_file_name.rfind('.')]+'.ima'}
             return show(request, args)
     else:
         form = UploadForm() # A empty, unbound form

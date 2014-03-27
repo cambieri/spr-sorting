@@ -13,6 +13,7 @@ class TxMessage(object):
     '''
     protocol = { 'ic': (0, EnumLength.word)
                 ,'function' : (16, EnumLength.word)
+                ,'thickness' : (112, EnumLength.word)
                 ,'plateausx' : (192, EnumLength.byte)
                 ,'plateaudx' : (200, EnumLength.byte)
                 ,'x' : (208, EnumLength.doubleWord)
@@ -27,7 +28,6 @@ class TxMessage(object):
                 ,'a1' : (448, EnumLength.doubleWord)
                 ,'ic1' : (512, EnumLength.word)
                 ,'filler1' : (32, EnumLength.word)
-                ,'filler2' : (112, EnumLength.word)
                 ,'filler3' : (128, EnumLength.word)
                 ,'filler4' : (144, EnumLength.word)
                 ,'filler5' : (160, EnumLength.word)

@@ -7,6 +7,7 @@ import threading
 import socket
 import time
 import datetime
+from main.tools import Tools;
 from sorting.settings.common import SOCKET_DATA
 from rxmessage import RxMessage
 
@@ -16,7 +17,7 @@ class UdpServer(threading.Thread):
     '''
 
 
-    def __init__(self, host, port, bufferlen=1024):
+    def __init__(self, host, port, bufferlen=1024, objtools = None):
         '''
         Constructor
         '''
@@ -28,6 +29,9 @@ class UdpServer(threading.Thread):
         self.lastmessage = RxMessage()
         self.ssock = None
         self.raddr = None
+        self.received = False
+        self.thisname = "UDP Server"
+        self.tools = Tools() if objtools == None else objtools
         
     def handleconnection(self):
         '''
@@ -42,6 +46,7 @@ class UdpServer(threading.Thread):
             #print str(e)
             pass
         else:
+            self.received = True
             self.raddr = address
             self.lastmessage.setMessage(bytearray(data))
             self.handlemessage(data)
@@ -57,11 +62,17 @@ class UdpServer(threading.Thread):
         '''
         Handle one incoming message
         '''
+        mylog = []
         if not data:
-            print "\n[UDP Server " + str(datetime.datetime.now()) + "] No data received"
+            mylog.append("No date received")
+            #print "\n[UDP Server " + str(datetime.datetime.now()) + "] No data received"
         else:
-            print "\n[UDP Server " + str(datetime.datetime.now()) + "] " + str(len(data)) + " byte(s) received from " + str(self.raddr) 
-            print list(bytearray(data))
+            mylog.append(str(len(data)) + " byte(s) received from " + str(self.raddr))
+            mylog.append(list(bytearray(data)))
+            mylog.extend(self.lastmessage.getLogMessages())
+            #print "\n[UDP Server " + str(datetime.datetime.now()) + "] " + str(len(data)) + " byte(s) received from " + str(self.raddr) 
+            #print list(bytearray(data))
+        self.tools.printLog(self.thisname, mylog)
             
     def serve(self):
         '''
@@ -77,7 +88,8 @@ class UdpServer(threading.Thread):
             self.ssock = None
             
     def run(self):
-        print '\n[UDP Server] listening....'    
+        self.tools.printLog(self.thisname, ["Start"])
+        #print '\n[UDP Server] listening....'    
         self.serve()
             
 if __name__ == '__main__':           # self test code

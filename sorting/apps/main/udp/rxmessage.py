@@ -80,8 +80,12 @@ class RxMessage(object):
             myBits = self.numberToBits(myByte)
             self.bits[i * 8: (i +1)*8] = bitarray(myBits)
             i += 1
+            
+    def getLogMessages(self):
+        ret = []
         for myKey in ('icr','errorack','acknack','sortingerror','sortingrunning','sortingwaiting','sortingfunction','z1error','z1running','z1waiting','z1function','unloadingrunning','unloadingfull','unloadingempty'):
-            print myKey + ": " + str(self.getValue(myKey))
+            ret.append(myKey + ": " + str(self.getValue(myKey)))
+        return ret
             
             
 if __name__ == '__main__':           # self test code

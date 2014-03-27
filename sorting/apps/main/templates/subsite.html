@@ -14,11 +14,15 @@
 {% block markup %}
 		<div class="container">
 			<header>
-				<img src="{{ STATIC_URL }}img/logo.png"/>
-				<div class="title">Benvenuti su SPR Sorting (by Stima Engineering)</div>
-				<div style="float: left; margin-top: -48px;"><button onclick="location.href='/upload'">CARICA</button></div>
-				<div style="float: right; margin-top: -48px;"><button onclick="app.saveMissions('{{drawSheet}}');">SALVA</button></div>
-				<hr style="clear:both; margin-bottom: 0;">
+				<div style="display: inline-table; width: 35%; padding: 0; margin: 0,">
+					<button style="width: 100px;" onclick="location.href='/upload'">CARICA</button>
+					&nbsp;&nbsp;&nbsp;
+					<button style="width: 100px;" onclick="app.saveMissions('{{drawSheet}}');">SALVA</button>
+					<h5>{{imaFileName}}</h5>
+				</div>
+				<div style="display: inline-table; width: 28%;"><img src="{{ STATIC_URL }}img/logo.png"/></div>
+				<div style="display: inline-table; width: 35%; margin: 0;" class="title">SPR Sorting</div>
+				<hr style="margin-bottom: 0;">
 			</header>
 			{% csrf_token %}
 			<div class="content">
