@@ -18,7 +18,7 @@
 					<button style="width: 100px;" onclick="location.href='/upload'">CARICA</button>
 					&nbsp;&nbsp;&nbsp;
 					<button style="width: 100px;" onclick="app.saveMissions('{{drawSheet}}');">SALVA</button>
-					<h5>{{imaFileName}}</h5>
+					<h5>{{imaFileName}} {% if imaFileName %}<button style="width: 54px;" onclick="app.resetMissions();">Reset</button>{% endif %}</h5>
 				</div>
 				<div style="display: inline-table; width: 28%;"><img src="{{ STATIC_URL }}img/logo.png"/></div>
 				<div style="display: inline-table; width: 35%; margin: 0;" class="title">SPR Sorting</div>

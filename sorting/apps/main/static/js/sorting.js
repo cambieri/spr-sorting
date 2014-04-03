@@ -91,12 +91,15 @@ Mission.prototype.drawIcons = function() {
 		icon[0][0].onclick=function(){
 			var thisMissionId = this.parentNode.parentNode.parentNode.parentNode.id;
 			var currentMissionId = 'mission' + app.currentMission.missionNum;
+			var newColor = "";
 			if (thisMissionId === currentMissionId) {
 				for (var j=0; j<app.currentMission.suctionCups.length; j++) {
 					var sc = app.currentMission.suctionCups[j];
 					if (icon.isPointInside(sc.attr('cx'),sc.attr('cy'))) {
-						if (sc.attr("fill") == "#909090") sc.animate({fill:"#00FF00"},200);
-						else if (sc.attr("fill") == "#00FF00") sc.animate({fill:"#909090"},200);
+						if (newColor.length == 0) {
+							newColor = (sc.attr("fill") == "#909090") ? "#00FF00" : "#909090"
+						}
+						sc.animate({fill:newColor},200);
 					}
 				}
 			}
@@ -168,12 +171,21 @@ Mission.prototype.acceptMission = function() {
 	}
 	app.setMission(this.missionNum + 1);
 };
+Mission.prototype.setLblPosPinze = function() {
+	$('#lblPosPinze'+this.missionNum).html('X='+this.offsetX+' &nbsp;&nbsp;&nbsp; Y='+this.offsetY);
+}
 Mission.prototype.refreshCircles = function() {
+	var colors = new Array();
 	for (var j=0; j<this.suctionCups.length; j++) {
+		colors.push(this.suctionCups[j].attr('fill'));
 		this.suctionCups[j].remove();
 	}
 	this.suctionCups.length = 0;
 	this.drawSuctionCups();
+	for (var j=0; j<this.suctionCups.length; j++) {
+		this.suctionCups[j].attr('fill', colors[j]);
+	}
+	this.setLblPosPinze();
 };
 Mission.prototype.refresh = function(skipCheckIntersection) {
 	this.picked.length = 0;
@@ -181,6 +193,15 @@ Mission.prototype.refresh = function(skipCheckIntersection) {
 	this.drawIcons();
 	this.drawSuctionCups();
 	if (!skipCheckIntersection) this.checkIntersection();
+};
+Mission.prototype.reset = function() {
+	this.offsetX = baseOffsetX;
+	this.offsetY = baseOffsetY;
+	this.leftWing = 0;
+	this.rightWing = 0;
+	$('#btnLeftWing'+this.missionNum).attr('checked', false);
+	$('#btnRightWing'+this.missionNum).attr('checked', false);
+	this.refreshCircles();
 };
 //CLASSE Mission END
 
@@ -226,6 +247,7 @@ var app = {
 			app.missions.push(m);
 			app.currentMission = m;
 			app.currentMission.refresh(true);
+			app.currentMission.setLblPosPinze();
 		} else {
 			// tornare a missione già creata
 			$('#btnRivedi'+app.currentMission.missionNum).enable();
@@ -236,7 +258,10 @@ var app = {
 			cmbR = app.currentMission.paper;
 			cmbI = app.currentMission.icons;
 //			app.currentMission.unpickAll();
+			var colors = new Array();
+			for (var i=0; i<app.currentMission.suctionCups.length; i++) colors.push(app.currentMission.suctionCups[i].attr('fill'));
 			app.currentMission.refresh(true);
+			for (var i=0; i<app.currentMission.suctionCups.length; i++) app.currentMission.suctionCups[i].attr('fill', colors[i]);
 		}
 	},
 	deleteMission: function(missionNum) {
@@ -252,6 +277,7 @@ var app = {
 				$('#btnIncOffsetX'+(i+1)).attr('id','btnIncOffsetX'+i);
 				$('#btnRicalcola'+(i+1)).attr('id','btnRicalcola'+i);
 				$('#btnAccetta'+(i+1)).attr('id','btnAccetta'+i);
+				$('#btnAzzera'+(i+1)).attr('id','btnAzzera'+i);
 				$('#btnDecOffsetY'+(i+1)).attr('id','btnDecOffsetY'+i);
 				$('#cmbR'+(i+1)).attr('id','cmbR'+i);
 				$("#btnRivedi"+(i+1)).attr('onclick','app.setMission('+i+');');
@@ -296,6 +322,15 @@ var app = {
             }
         });
     },
+    resetMissions: function() {
+    	if (confirm("Confermi la cancellazione di TUTTE le missioni?")) {
+        	for (var i = app.missions.length - 1; i > -1; i--) {
+    			app.missions.splice(i, 1);
+    			$('#mission'+i).remove();
+        	}
+        	app.setMission(0);
+        }
+   },
 };
 
 var i1, i2, i3, i4;

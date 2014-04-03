@@ -1,12 +1,12 @@
 				CLIENT
 				======
-				- Il RIVEDI e gli spostamenti non devono spegnere le ventose
-				- Pulsante RESET (cancella tutte le missioni)
-				- Pulsante AZZERA PINZA (porta pinza in 0,0)
+				OK) Il RIVEDI e gli spostamenti non devono spegnere le ventose
+				OK) Pulsante RESET (cancella tutte le missioni)
+				OK) Pulsante AZZERA PINZA (porta pinza in 0,0)
 				- Visualizzazione posizione pinza (offset)
-				- Visualizzazione sorting presenti con apertura (se non c'è IMA segnalare che non si può aprire)
+				- Visualizzazione sorting presenti con apertura (se non c'ï¿½ IMA segnalare che non si puï¿½ aprire)
 				- Su apertura IMA: se esiste sorting corrispondente chiedere se si vuole caricare
-				- Su caricamento segnalare progresso e eventuali errori
+				OK) Su caricamento segnalare progresso e eventuali errori
 				- Su salvataggio segnalare se ventose fuori da icone
 				- Non salvare missioni vuote
 				- Dopo salvataggio ricaricare (per eliminare missioni vuote dalla visualizzazione)

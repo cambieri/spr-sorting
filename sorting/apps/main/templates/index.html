@@ -15,7 +15,6 @@
 {% block js %}
 {{ block.super }}
 		<script>
-			var savedMissions = "{{savedMissions}}";
 			var baseOffsetX = {{baseOffsetX}};
 			var baseOffsetY = {{baseOffsetY}};
 			var incX = {{incX}};
@@ -23,6 +22,16 @@
 			var incRepeatDelay = {{incRepeatDelay}};
 			var leftWingOffset = {{leftWingOffset}};
 			var rightWingOffset = {{rightWingOffset}};
+		</script>
+		<script>
+			/* ha un suo blocco di script perchè può generare un syntax error */
+			var savedMissions;
+			try {
+				savedMissions = "{{savedMissions}}";
+			} catch(err) {
+				alert("Errore nel caricamento del file di sorting.");
+				savedMissions = "";
+			}
 		</script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/cmbRaphael.js"></script>
 		<script type="text/javascript" src="{{ MEDIA_URL }}js/{{ drawSheet }}"></script>
