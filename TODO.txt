@@ -1,0 +1,23 @@
+				CLIENT
+				======
+				- Il RIVEDI e gli spostamenti non devono spegnere le ventose
+				- Pulsante RESET (cancella tutte le missioni)
+				- Pulsante AZZERA PINZA (porta pinza in 0,0)
+				- Visualizzazione posizione pinza (offset)
+				- Visualizzazione sorting presenti con apertura (se non c'è IMA segnalare che non si può aprire)
+				- Su apertura IMA: se esiste sorting corrispondente chiedere se si vuole caricare
+				- Su caricamento segnalare progresso e eventuali errori
+				- Su salvataggio segnalare se ventose fuori da icone
+				- Non salvare missioni vuote
+				- Dopo salvataggio ricaricare (per eliminare missioni vuote dalla visualizzazione)
+				- Ragionare su automatico singola icona
+				- Internet Explorer
+				- Zoom lamiera
+				- Visualizzazione stati, funzione in corso, eventuali situazioni di missione non eseguita
+
+				SERVER
+				======
+				- Integrare STS
+				- Trasmettere a PLC numero missione in corso
+				- Ricevere da PLC informazione missione eseguita o non eseguita (SPR)
+				- Gestione LOG con archiviazione
