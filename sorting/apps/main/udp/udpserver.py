@@ -5,7 +5,6 @@ Created on Sep 27, 2013
 '''
 import threading
 import socket
-import time
 import datetime
 from main.tools import Tools;
 from sorting.settings.common import SOCKET_DATA
@@ -42,7 +41,7 @@ class UdpServer(threading.Thread):
             self.ssock.bind(self.addr)
         try:
             data, address = self.ssock.recvfrom(self.bufferlen)
-        except Exception, e:
+        except Exception:
             #print str(e)
             pass
         else:

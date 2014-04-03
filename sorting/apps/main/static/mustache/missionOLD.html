@@ -5,15 +5,13 @@
 							</div>
 						</div> -->
 						<div class="row top-buffer" style="margin-bottom: 10px;">
-							<!-- <div class="col-xs-12"> -->
-							<div class="col-xs-6">
+							<div class="col-xs-12">
 								<div class="title" id="txtTitolo{{missionNum}}"></div>
 								<script>document.getElementById('txtTitolo{{missionNum}}').innerHTML = 'MISSIONE ' + ({{missionNum}}+1);</script>
 							</div>
 						</div>
 						<div class="row">
-							<!-- <div class="col-xs-2 col-sm-offset-3"> -->
-							<div class="col-xs-2">
+							<div class="col-xs-2 col-sm-offset-3">
 								<button type="button" class="btn btn-default btn-lg" id="btnDecOffsetX{{missionNum}}" onclick="callDecOffsetX();" onmousedown="i1=setInterval(callDecOffsetX, {{incRepeatDelay}});" onmouseup="clearInterval(i1);">
 									<script>function callDecOffsetX() { clearInterval(i2); app.currentMission.decOffsetX(); }</script>
 									<span class="glyphicon glyphicon-chevron-left"></span>
@@ -45,8 +43,7 @@
 							</div>
 						</div>
 						<div class="row" style="margin-bottom: 10px;">
-							<!-- <div class="col-xs-2 col-sm-offset-3"> -->
-							<div class="col-xs-2">
+							<div class="col-xs-2 col-sm-offset-3">
 	                			<input type="checkbox" id="btnLeftWing{{missionNum}}" onclick="if (this.checked) app.currentMission.leftWing={{leftWingOffset}}; else app.currentMission.leftWing=0; app.currentMission.refreshCircles();">  
 	                			SX
 	                			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -54,13 +51,11 @@
 	                			<input type="checkbox" id="btnRightWing{{missionNum}}" onclick="if (this.checked) app.currentMission.rightWing={{rightWingOffset}}; else app.currentMission.rightWing=0; app.currentMission.refreshCircles();">  
 	                		</div>
 						</div>
-						<div class="row" style="text-align: left;">
-							<!-- <div id="cmbR{{missionNum}}" style="width:100%; height:300px;"></div> -->
-							<div id="cmbR{{missionNum}}" style="width:100%; height:300px; margin-left: 18px;"></div>
+						<div class="row">
+							<div id="cmbR{{missionNum}}" style="width:100%; height:300px;"></div>
 						</div>
 						<div class="row">
-							<!-- <div class="col-xs-6 col-sm-offset-3"> -->
-							<div class="col-xs-6">
+							<div class="col-xs-6 col-sm-offset-3">
 								<button type="button" class="btn btn-default btn-xs" style="width: 100%;" id="btnRivedi{{missionNum}}" onclick="app.setMission({{missionNum}});" disabled="disabled">
 									RIVEDI
 								</button>

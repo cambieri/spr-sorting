@@ -17,6 +17,7 @@ import math
 import random
 import datetime
 import time
+from shutil import copyfile
 class UdpClient(object):
     '''
     Simple socket client
@@ -69,12 +70,21 @@ class UdpClient(object):
         myFilePath = os.path.join(MEDIA_ROOT, SOCKET_DATA['folder'], SOCKET_DATA['file'])
         myPosFile = self.tools.readIniFile(myFilePath);
         if myPosFile:
+            myBackupPath = os.path.join(MEDIA_ROOT, SOCKET_DATA['folderbackup'], SOCKET_DATA['file'] + "." + str(datetime.datetime.now()).replace("-","").replace(" ", ".").replace(":",""))
             self.program = myPosFile.get("pack1.program")
             self.x = float(myPosFile.get("pack1.xpos"))
             self.y = float(myPosFile.get("pack1.ypos"))
             self.angle = float(myPosFile.get("pack1.angle"))
             self.restart = bool(int(myPosFile.get("pack1.restart")))
-            os.rename(myFilePath, myFilePath + "." + str(datetime.datetime.now()).replace("-","").replace(" ", ".").replace(":",""))
+            try:
+                copyfile(myFilePath, myBackupPath)
+#                os.rename(myFilePath, myBackupPath)
+            except Exception:
+                pass
+            try:
+                os.remove(myFilePath)
+            except Exception:
+                pass
             ret = True
         return ret 
     
@@ -151,7 +161,7 @@ class UdpClient(object):
             ret = myMessage.setValue("FUNCTION", 201) if ret == EnumResult.ok else EnumResult.dataUnexpected
             leftWing = mission.get("leftWing")
             rightWing = mission.get("rightWing")
-            xLeaving = mission.get("offsetX") - leftWing
+            xLeaving = mission.get("offsetX") 
             yLeaving = mission.get('offsetY')
             xTaking = xLeaving + self.x
             yTaking = yLeaving + self.y

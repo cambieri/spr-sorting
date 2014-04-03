@@ -22,11 +22,11 @@ def generate_secret_key(file_path):
 	with open(file_path, "w") as text_file:
 		text_file.write("SECRET_KEY = '%s'" % secret_key)
 try:
-    from secret_key import *
+	from secret_key import *
 except ImportError:
-    SETTINGS_DIR = os.path.abspath(os.path.dirname(__file__))
-    generate_secret_key(os.path.join(SETTINGS_DIR, 'secret_key.py'))
-    from secret_key import *
+	SETTINGS_DIR = os.path.abspath(os.path.dirname(__file__))
+	generate_secret_key(os.path.join(SETTINGS_DIR, 'secret_key.py'))
+	from secret_key import *  # @UnusedWildImport
 
 # Invio email con classe send_mail configurata con smtp google
 EMAIL_USE_TLS = True
@@ -192,8 +192,8 @@ INC_X = 10
 INC_Y = 10
 INC_REPEAT_DELAY = 100 # millisecondi (più basso = più veloce)
 
-LEFT_WING_OFFSET = -300
-RIGHT_WING_OFFSET = 300
+LEFT_WING_OFFSET = -500
+RIGHT_WING_OFFSET = 500
 
 SUCTION_CUPS = (
 	(1,		0,		0, 		25, 	25, 	'left'),
@@ -253,13 +253,14 @@ SUCTION_CUPS = (
 SOCKET_DATA = {
 			 'myip' : ''
 			,'myport' : 2000
-			,'otherip' : '10.0.6.122'
+			,'otherip' : '192.168.99.1'
 			,'otherport' : 2000
 			,'bytestx' : 66
 			,'bytesrx' : 16
 			,'dimensionfactor' : 1
 			,'folder' : 'ima'
 			,'file' : 'pos01.ini'
+			,'folderbackup' : 'history'
 			,'filerequest' : 'request01.ini'
 			,'filerequestsyn' : 'request01.syn'
 			,'requesttext' : 'C_WMS_PALLET_LOAD_REQ'
