@@ -174,10 +174,10 @@ class UdpClient(object):
             ret = myMessage.setValue("Y", yTaking) if ret == EnumResult.ok else EnumResult.dataUnexpected
             ret = myMessage.setValue("X1", xLeaving) if ret == EnumResult.ok else EnumResult.dataUnexpected
             ret = myMessage.setValue("Y1", yLeaving) if ret == EnumResult.ok else EnumResult.dataUnexpected
-            if (leftWing > 0):
+            if (leftWing != 0):
                 ret = myMessage.setValue("PLATEAUSX", 1) if ret == EnumResult.ok else EnumResult.dataUnexpected
                 ret = myMessage.setValue("PLATEAUSX1", 1) if ret == EnumResult.ok else EnumResult.dataUnexpected
-            if (rightWing > 0):
+            if (rightWing != 0):
                 ret = myMessage.setValue("PLATEAUDX", 1) if ret == EnumResult.ok else EnumResult.dataUnexpected
                 ret = myMessage.setValue("PLATEAUDX1", 1) if ret == EnumResult.ok else EnumResult.dataUnexpected            
             for mySC in mySCs:

@@ -19,7 +19,8 @@ function Mission(paper, missionNum) {
 	this.minOffsetX = baseOffsetX;
 	this.minOffsetY = baseOffsetY;
 	this.maxOffsetX = app.canvasWidth - baseOffsetX;
-	this.maxOffsetY = app.canvasHeight - baseOffsetY;
+	//this.maxOffsetY = app.canvasHeight - baseOffsetY;
+	this.maxOffsetY = maxOffsetYCommon;
 	this.offsetX = baseOffsetX;
 	this.offsetY = baseOffsetY;
 	

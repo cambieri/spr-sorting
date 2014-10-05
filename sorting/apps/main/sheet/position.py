@@ -68,7 +68,7 @@ class Position(object):
             else:
                 myClass = "external"
                 myColor = Enum.Colors.external if self.isToUnload else Enum.Colors.notunload
-            ret += '\t<path id="' + myId + '" class="' + myClass + '" \n'
+            ret += '\t<path id="' + myId + '" class="' + myClass + ('"' if myProfile.isInternal else '" stroke="#fff" stroke-width="0.5"') + ' \n'
             ret += "\n".join(("\t\t") + myLine for myLine in myProfile.toSVGpath().splitlines())        
             ret += "\n"                    
             ret += '\t\tstyle="fill:' + myColor + ';"\n'
@@ -108,8 +108,8 @@ class Position(object):
             ret += "$(" + myId + ".node).attr('id', '" + myId + "'); \n";
             ret += myId + ".attr({"
             ret += "'fill': '" + myColor + "'"
-            ret += ", 'stroke': '" + "#000" + "'"
-            ret += ", 'stroke-width': '" + "0" + "'"
+            ret += ", 'stroke': '" + "#fff" + "'"
+            ret += ", 'stroke-width': '" + ("0" if myProfile.isInternal else "0.5") + "'"
             ret += ", 'stroke-opacity': '" + "1" + "'"
             ret += "}); \n"
             ret += myId + '.data("id", "' + myId + '"); \n'

@@ -184,7 +184,7 @@ class Ima(object):
                               myPart.isRawPart, 
                               myPart.isLabelPart)
                 for myImaProfile in myPart.profiles:
-                    myProfile = profile.Profile(myImaProfile.name, (myImaProfile.external != Enum.ExternalFlag.external))
+                    myProfile = profile.Profile(myImaProfile.name, (myImaProfile.external != Enum.ExternalFlag.external), myIcon.dimX, myIcon.dimY, myIcon.pivotX, myIcon.pivotY)
                     for myItem in myImaProfile.items:
                         mySegment = segment.Segment(myItem.name, 
                                                     myItem.xStart, 
@@ -245,10 +245,11 @@ class Ima(object):
     dimY = property(get_dim_y, set_dim_y, None, None)
 
 if __name__ == '__main__':           # self test code
-    myIma = Ima("/home/val3xiv/workspace-django/spr-sorting/sorting/media/ima-emf/valter.ima", "valter.js", True)
+    myIma = Ima("/home/val3xiv/workspace-django/spr-sorting/sorting/media/myima/001_2010_3T5_X1_nest_lnt01.ima", "test.js", True)
     #myPart = myIma.parts[0].transform()
     myCmbSheet = myIma.ima2cmb()
     print myCmbSheet.toRaphael()
+    #print myCmbSheet.toSVG()
     
         
         

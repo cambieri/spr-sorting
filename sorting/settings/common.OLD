@@ -22,11 +22,11 @@ def generate_secret_key(file_path):
 	with open(file_path, "w") as text_file:
 		text_file.write("SECRET_KEY = '%s'" % secret_key)
 try:
-	from secret_key import *
+    from secret_key import *
 except ImportError:
-	SETTINGS_DIR = os.path.abspath(os.path.dirname(__file__))
-	generate_secret_key(os.path.join(SETTINGS_DIR, 'secret_key.py'))
-	from secret_key import *  # @UnusedWildImport
+    SETTINGS_DIR = os.path.abspath(os.path.dirname(__file__))
+    generate_secret_key(os.path.join(SETTINGS_DIR, 'secret_key.py'))
+    from secret_key import *
 
 # Invio email con classe send_mail configurata con smtp google
 EMAIL_USE_TLS = True
@@ -188,18 +188,16 @@ X_FRAME_OPTIONS = 'DENY'
 BASE_OFFSET_X = 50
 BASE_OFFSET_Y = 50
 
-INC_X = 2
-INC_Y = 2
+INC_X = 10
+INC_Y = 10
 INC_REPEAT_DELAY = 100 # millisecondi (più basso = più veloce)
 
 LEFT_WING_OFFSET = -500
 RIGHT_WING_OFFSET = 500
-MAX_OFFSET_Y_COMMON = 640 - BASE_OFFSET_Y # 640 = 2000 (max y macchina) - 1360 (max Y ventose)
-
 
 SUCTION_CUPS = (
 	(1,		0,		0, 		25, 	25, 	'left'),
-	(2, 	230, 	35,		25, 	25, 	'leftfixed'),
+	(2, 	230, 	0, 		25, 	25, 	'leftfixed'),
 	(3, 	630, 	0, 		25, 	25, 	'leftfixed'),
 	(4, 	790, 	0, 		25, 	25, 	'leftfixed'),
 	(5, 	0, 		320, 	25, 	25, 	'leftfixed'),
@@ -208,7 +206,7 @@ SUCTION_CUPS = (
 	(8, 	790, 	320, 	25, 	25, 	'leftfixed'),
 	(9,		1530,	0, 		25, 	25, 	'rightfixed'),
 	(10, 	1830, 	0, 		25, 	25, 	'rightfixed'),
-	(11, 	2230, 	35, 	25, 	25, 	'rightfixed'),
+	(11, 	2230, 	0, 		25, 	25, 	'rightfixed'),
 	(12, 	2460, 	0, 		25, 	25, 	'right'),
 	(13, 	1530, 	320, 	25, 	25, 	'rightfixed'),
 	(14, 	1830, 	320, 	25, 	25, 	'rightfixed'),
@@ -239,7 +237,7 @@ SUCTION_CUPS = (
 	(39, 	630, 	1040, 	25, 	25, 	'leftfixed'),
 	(40, 	930, 	1040, 	25, 	25, 	'leftfixed'),
 	(41, 	0, 		1360, 	25, 	25, 	'left'),
-	(42, 	230, 	1325, 	25, 	25, 	'leftfixed'),
+	(42, 	230, 	1360, 	25, 	25, 	'leftfixed'),
 	(43, 	630, 	1360, 	25, 	25, 	'leftfixed'),
 	(44, 	930, 	1360, 	25, 	25, 	'leftfixed'),
 	(45,	1530,	1040, 	25, 	25, 	'rightfixed'),
@@ -248,63 +246,8 @@ SUCTION_CUPS = (
 	(48, 	2460, 	1040, 	25, 	25, 	'right'),
 	(49, 	1530,	1360, 	25, 	25, 	'rightfixed'),
 	(50, 	1830, 	1360, 	25, 	25, 	'rightfixed'),
-	(51, 	2230, 	1325, 	25, 	25, 	'rightfixed'),
+	(51, 	2230, 	1360, 	25, 	25, 	'rightfixed'),
 	(52, 	2460, 	1360, 	25, 	25, 	'right'),
-)
-
-SUCTION_CUPS_SOLO_2_E_11 = (
-	(1,		0,		35, 		25, 	25, 	'left'),
-	(2, 	230, 	0, 		25, 	25, 	'leftfixed'),
-	(3, 	630, 	35, 		25, 	25, 	'leftfixed'),
-	(4, 	790, 	35, 		25, 	25, 	'leftfixed'),
-	(5, 	0, 		355, 	25, 	25, 	'leftfixed'),
-	(6, 	380, 	275, 	25, 	25, 	'leftfixed'),
-	(7, 	630, 	355, 	25, 	25, 	'leftfixed'),
-	(8, 	790, 	355, 	25, 	25, 	'leftfixed'),
-	(9,		1530,	35, 		25, 	25, 	'rightfixed'),
-	(10, 	1830, 	35, 		25, 	25, 	'rightfixed'),
-	(11, 	2230, 	0, 		25, 	25, 	'rightfixed'),
-	(12, 	2460, 	35, 		25, 	25, 	'right'),
-	(13, 	1530, 	355, 	25, 	25, 	'rightfixed'),
-	(14, 	1830, 	355, 	25, 	25, 	'rightfixed'),
-	(15, 	2080, 	275, 	25, 	25, 	'rightfixed'),
-	(16, 	2460, 	355, 	25, 	25, 	'right'),
-	(17, 	184, 	495, 	25, 	25, 	'left'),
-	(18,	0, 		615, 	25, 	25, 	'left'),
-	(19, 	310, 	615, 	25, 	25, 	'leftfixed'),
-	(20, 	630, 	615, 	25, 	25, 	'leftfixed'),
-	(21, 	930, 	615, 	25, 	25, 	'leftfixed'),
-	(22,	0, 		815, 	25, 	25, 	'left'),
-	(23, 	184, 	815, 	25, 	25, 	'leftfixed'),
-	(24, 	630, 	815, 	25, 	25, 	'leftfixed'),
-	(25, 	930, 	815, 	25, 	25, 	'leftfixed'),
-	(26, 	184, 	935, 	25, 	25, 	'left'),
-	(27, 	2276, 	495, 	25, 	25, 	'right'),
-	(28,	1530, 	615, 	25, 	25, 	'rightfixed'),
-	(29, 	1830, 	615, 	25, 	25, 	'rightfixed'),
-	(30, 	2150, 	615, 	25, 	25, 	'rightfixed'),
-	(31, 	2460, 	615, 	25, 	25, 	'right'),
-	(32,	1530, 	815, 	25, 	25, 	'rightfixed'),
-	(33, 	1830, 	815, 	25, 	25, 	'rightfixed'),
-	(34, 	2150, 	815, 	25, 	25, 	'rightfixed'),
-	(35, 	2460, 	815, 	25, 	25, 	'right'),
-	(36, 	2276, 	935, 	25, 	25, 	'right'),
-	(37,	0,		1075, 	25, 	25, 	'left'),
-	(38, 	380, 	1155, 	25, 	25, 	'leftfixed'),
-	(39, 	630, 	1075, 	25, 	25, 	'leftfixed'),
-	(40, 	930, 	1075, 	25, 	25, 	'leftfixed'),
-	(41, 	0, 		1395, 	25, 	25, 	'left'),
-	(42, 	230, 	1395, 	25, 	25, 	'leftfixed'),
-	(43, 	630, 	1395, 	25, 	25, 	'leftfixed'),
-	(44, 	930, 	1395, 	25, 	25, 	'leftfixed'),
-	(45,	1530,	1075, 	25, 	25, 	'rightfixed'),
-	(46, 	1830, 	1075, 	25, 	25, 	'rightfixed'),
-	(47, 	2080, 	1155, 	25, 	25, 	'rightfixed'),
-	(48, 	2460, 	1075, 	25, 	25, 	'right'),
-	(49, 	1530,	1395, 	25, 	25, 	'rightfixed'),
-	(50, 	1830, 	1395, 	25, 	25, 	'rightfixed'),
-	(51, 	2230, 	1395, 	25, 	25, 	'rightfixed'),
-	(52, 	2460, 	1395, 	25, 	25, 	'right'),
 )
 
 SOCKET_DATA = {

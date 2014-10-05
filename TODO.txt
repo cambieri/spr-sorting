@@ -21,3 +21,22 @@
 				- Trasmettere a PLC numero missione in corso
 				- Ricevere da PLC informazione missione eseguita o non eseguita (SPR)
 				- Gestione LOG con archiviazione
+
+
+20140804
+========
+./apps/main/templates/subsite.html
+./apps/main/templates/index.html
+./apps/main/views.py
+./apps/main/views.pyc
+./apps/main/static/js/sorting.js
+./apps/main/static/mustache/mission.html
+
+./apps/main/sheet/position.py
+./apps/main/sheet/position.pyc
+./apps/main/sheet/profile.py
+./apps/main/sheet/profile.pyc
+./apps/main/ima/ima.py
+./apps/main/ima/ima.pyc
+./apps/main/udp/udpclient.py
+./apps/main/udp/udpclient.pyC
