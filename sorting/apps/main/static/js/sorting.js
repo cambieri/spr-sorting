@@ -31,19 +31,23 @@ function Mission(paper, missionNum) {
 	this.rightWing = 0;
 };		
 Mission.prototype.decOffsetX = function() {
-	this.offsetX = this.offsetX>this.minOffsetX ? this.offsetX-incX : this.minOffsetX;
+	myInc = (fast) ? incXfast : incX;
+	this.offsetX = this.offsetX>this.minOffsetX ? this.offsetX-myInc : this.minOffsetX;
 	this.refreshCircles();
 };
 Mission.prototype.incOffsetX = function() {
-	this.offsetX = this.offsetX<this.maxOffsetX ? this.offsetX+incX : this.maxOffsetX;
+	myInc = (fast) ? incXfast : incX;
+	this.offsetX = this.offsetX<this.maxOffsetX ? this.offsetX+myInc : this.maxOffsetX;
 	this.refreshCircles();
 };
 Mission.prototype.decOffsetY = function() {
-	this.offsetY = this.offsetY>this.minOffsetY ? this.offsetY-incY : this.minOffsetY;
+	myInc = (fast) ? incYfast : incY;
+	this.offsetY = this.offsetY>this.minOffsetY ? this.offsetY-myInc : this.minOffsetY;
 	this.refreshCircles();
 };
 Mission.prototype.incOffsetY = function() {
-	this.offsetY = this.offsetY<this.maxOffsetY ? this.offsetY+incY : this.maxOffsetY;
+	myInc = (fast) ? incYfast : incY;
+	this.offsetY = this.offsetY<this.maxOffsetY ? this.offsetY+myInc : this.maxOffsetY;
 	this.refreshCircles();
 };
 Mission.prototype.drawSuctionCup = function(posX, posY, radiusX, radiusY) {
@@ -222,7 +226,7 @@ var app = {
 		if (missionNum === this.missions.length) {
 			if (app.currentMission) { $('#btnRivedi'+app.currentMission.missionNum).enable(); }
 			
-			var missionDiv = Mustache.render(missionTemplate, {missionNum: missionNum, incRepeatDelay: incRepeatDelay, leftWingOffset: leftWingOffset, rightWingOffset: rightWingOffset});
+			var missionDiv = Mustache.render(missionTemplate, {missionNum: missionNum, incRepeatDelay: incRepeatDelay, incRepeatDelayFast: incRepeatDelayFast, leftWingOffset: leftWingOffset, rightWingOffset: rightWingOffset});
 			$('.content').append(missionDiv);
 			
 			var windowWidth = $('#cmbR'+missionNum).width() * 0.95; 
